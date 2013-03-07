@@ -79,9 +79,15 @@ boolconst = true|false
 <YYINITIAL>"string" {return new Symbol(sym.STRINGTYPE);}
 <YYINITIAL>"tuple" {return new Symbol(sym.TUPLETYPE);}
 
+<<<<<<< HEAD
 <YYINITIAL>{boolconst} {return new Symbol(sym.BOOL,(new Boolean(yytext())).booleanValue());}
 <YYINITIAL>{integer} {return new Symbol(sym.INTEGER, (new Integer(yytext())).intValue());}
 <YYINITIAL>{float} {return new Symbol(sym.FLOAT, (new Float(yytext())).floatValue());}
+=======
+<YYINITIAL>{boolconst} {return new Symbol(sym.BOOL, yytext());}
+<YYINITIAL>{integer} {return new Symbol(sym.INTEGER, (new Integer(yytext())).intValue());}
+<YYINITIAL>{float} {return new Symbol(sym.FLOAT, (new Integer(yytext())).intValue());}
+>>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
 <YYINITIAL>{char} {return new Symbol(sym.CHAR, (new Character(yytext().charAt(0))).charValue());}
 <YYINITIAL>{identifier} {return new Symbol(sym.ID, yytext());}
 <YYINITIAL>{whitespace} {}

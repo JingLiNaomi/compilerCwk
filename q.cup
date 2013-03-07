@@ -28,7 +28,11 @@ non-terminal list_index, sequence_len, sequence_slicing;
 
 non terminal ar_operation, ar_expression, ar_operand, expression;
 non-terminal comparison_exp, comp_operand, comparison_op;
+<<<<<<< HEAD
 non-terminal bool_exp, bool_operand, logic_operation, logic_expr;
+=======
+non-terminal bool_exp, bool_operand, logic_operation;
+>>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
 non-terminal concat_expr, concat_operand;
 
 non-terminal assignment, if_statement, else_statement, else_opt, while_statement, repeat_statement, return_statement;
@@ -60,8 +64,12 @@ type ::= FLOATTYPE
 simple_name ::=	ID;
 //compound name, i.e id.field
 qualified_name ::=
+<<<<<<< HEAD
 		name DOT ID
 		| list_index;
+=======
+		name DOT ID;
+>>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
 //any list
 list ::= emptyList
 	| stringList
@@ -168,7 +176,10 @@ ar_expression ::= ar_operand ar_operation ar_operand
 	| LPAREN ar_expression RPAREN;
 //comparison expression
 comparison_exp ::= comp_operand comparison_op comp_operand;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
 //comparison operation 
 comparison_op ::= EQ
 	| NEQ
@@ -187,6 +198,7 @@ bool_operand ::=
 logic_operation ::= OR
 	| AND
 	| NOT;
+<<<<<<< HEAD
 //logical expression
 logic_expr ::= 
 	comparison_exp logic_operation comparison_exp
@@ -196,6 +208,17 @@ logic_expr ::=
 //boolean expression
 bool_exp ::= comparison_exp
 	| logic_expr
+=======
+//boolean expression
+bool_exp ::= 
+	bool_operand
+	| name logic_operation bool_operand
+	| bool_operand logic_operation name
+	| name logic_operation name
+	| bool_operand logic_operation bool_operand
+	| bool_exp logic_operation bool_operand
+	| bool_exp logic_operation name
+>>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
 	| LPAREN bool_exp RPAREN; 
 //concatenation operand
 concat_operand ::= 
@@ -230,7 +253,11 @@ func_call ::= ID LPAREN actual_param_list RPAREN;
 //assignment statement
 assignment ::= name ASSIGN name SEMI
 	| name ASSIGN expression SEMI
+<<<<<<< HEAD
 	| name ASSIGN anyElement SEMI;
+=======
+	| list_index ASSIGN expression SEMI;
+>>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
 //if statement
 if_statement ::= IF LPAREN bool_exp RPAREN  LCBRACK body RCBRACK else_opt;
 //else statement
