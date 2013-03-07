@@ -1,0 +1,13 @@
+a=a+a;
+b=a;
+b=a/e;
+a=b-f;
+a=(a-b+3);
+
+n=true;
+n=false;
+y=45;
+str = "sdff";
+i=2.3;
+a='a';
+q=[];
