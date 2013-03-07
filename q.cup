@@ -1,0 +1,294 @@
+import java_cup.runtime.*;
+
+
+// operations
+terminal PLUS, TIMES, MINUS,DIVIDE, CONCAT, ASSIGN;
+//types
+terminal FLOAT, INTEGER,STRING,CHAR,BOOL, ID;
+//type definitions
+terminal FLOATTYPE, INTEGERTYPE, STRINGTYPE, CHARTYPE, LISTTYPE, TUPLETYPE, BOOLTYPE; 
+// punctutation
+terminal  DOT, COMMA, COLON, STROKE,LCBRACK, RCBRACK,LPAREN, RPAREN,SEMI,LBRACK,RBRACK;
+//keywords
+terminal LEN, VOID,FDEF, IF, ELSE, WHILE, REPEAT, RETURN, UNTIL, DO;
+//logica operations
+terminal OR, AND, NOT;
+//comparison
+terminal EQ, LESS, GREATER, LESSEQ, GREATEREQ, NEQ;
+//data type declaration
+terminal TDEF;  
+
+non-terminal name, simple_name, qualified_name, type, element;
+non terminal typedecl,typedeclist,elementlist;   //Data type declaration
+non-terminal list, emptyList, listOfListsOfStrings, listOfListsOfIntegers, listOfListsOfFloats, listOfListsOfChars,valuelist, value;
+non-terminal stringList, floatList, integerList, charList;
+non-terminal listOfChars, listOfIntegers, listOfFloats, listOfStrings,listOfAnyElements,anyElement;
+non-terminal tuple, tuple_op, comma_op, emptyTuple;
+non-terminal list_index, sequence_len, sequence_slicing;
+
+non terminal ar_operation, ar_expression, ar_operand, expression;
+non-terminal comparison_exp, comp_operand, comparison_op;
+non-terminal bool_exp, bool_operand, logic_operation;
+non-terminal concat_expr, concat_operand;
+
+non-terminal assignment, if_statement, else_statement, else_opt, while_statement, repeat_statement, return_statement;
+
+
+
+non-terminal func_def_retrn, func_def_noretrn, func_body, param_list, actual_param_list, func_call, body;
+non-terminal var_declr, statement, statement_list,vardeclist, var_single_declr, var_declr_init;
+
+
+precedence left PLUS;
+precedence left TIMES;
+
+
+
+start with statement_list;
+
+// name. can be name of variable or name of function
+name	::=	simple_name
+	|	qualified_name;
+type ::= FLOATTYPE
+	| INTEGERTYPE
+	| CHARTYPE
+	| BOOLTYPE
+	| STRINGTYPE
+	| LISTTYPE
+	| TUPLETYPE;
+//simple name, i.e ID
+simple_name ::=	ID;
+//compound name, i.e id.field
+qualified_name ::=
+		name DOT ID;
+//any list
+list ::= emptyList
+	| stringList
+	| integerList
+	| floatList;
+//empty list, i.e []
+emptyList ::= LBRACK RBRACK;
+//string list, i.e ["item1","item2"] or [["item1"],["item2"]] etc
+stringList ::= LBRACK listOfStrings RBRACK
+	| LBRACK listOfListsOfStrings RBRACK; 
+//list of lists of strings, i.e ["item1"],["item2"]
+listOfListsOfStrings ::= stringList
+	| stringList COMMA listOfListsOfStrings;
+//list of strings, i.e "item1","item2"
+listOfStrings ::= STRING
+	| STRING COMMA listOfStrings;
+//integer list, i.e [1,2,3] or [[1],[2],[3]] etc
+integerList ::= LBRACK listOfIntegers RBRACK
+	| LBRACK listOfListsOfIntegers RBRACK; 
+//list of list of integers, i.e [1,2,3],[1,2,3]
+listOfListsOfIntegers ::= integerList
+	| integerList COMMA listOfListsOfIntegers;
+//list of integers, i.e 1,2,3
+listOfIntegers ::= INTEGER
+	| INTEGER COMMA listOfIntegers;
+//float list, i.e [1.2,3.4,1.5] or [[2.4],[2.2],[5.3]] etc
+floatList ::= LBRACK listOfFloats RBRACK
+	| LBRACK listOfListsOfFloats RBRACK; 
+//list of list of floats, i,e [1.2,3.4,1.5], [1.2,3.4,1.5]
+listOfListsOfFloats ::= floatList
+	| floatList COMMA listOfListsOfFloats;
+// list of floats, i.e 2.6,4.2,6.2
+listOfFloats ::= FLOAT
+	| FLOAT COMMA listOfFloats;
+
+
+//char list, i.e ['1','4','5'] or [['s'],['e'],['d']] etc
+charList ::= LBRACK listOfChars RBRACK
+	| LBRACK listOfListsOfChars RBRACK; 
+//list of list of chars, i,e ['4','2','d'], ['e','5','s']
+listOfListsOfChars ::= charList
+	| charList COMMA listOfListsOfChars;
+// list of chars, i.e '2','3','j'
+listOfChars ::= CHAR
+	| CHAR COMMA listOfChars;
+
+
+//any element
+anyElement ::= INTEGER
+	| FLOAT
+	| STRING
+	| CHAR
+	| BOOL
+	| list;
+// any element list
+/*anyElemList ::= LBRACK listOfAnyElems RBRACK
+	| LBRACK listOfListsOfAnyElems RBRACK; 
+//list of list of 
+listOfListsOfAnyElems ::= anyElemList
+	| anyElemList COMMA listOfListsOfAnyElems;*/
+
+listOfAnyElements ::= anyElement
+	| listOfAnyElements COMMA anyElement;
+
+//empty tuple
+emptyTuple ::= LBRACK STROKE STROKE RBRACK;
+//tupple
+tuple ::= emptyTuple 
+	| LBRACK STROKE listOfAnyElements STROKE RBRACK
+	| LBRACK STROKE tuple comma_op tuple_op STROKE RBRACK;
+// comma optional
+comma_op ::= 
+	| COMMA;
+//tuple optional
+tuple_op ::=
+	| tuple;
+// list indexing, i.e a[2]
+list_index ::= name LBRACK ar_operand RBRACK
+	| name LBRACK ar_expression RBRACK;
+//sequence length, i.e len(sq)
+sequence_len ::= LEN LPAREN name RPAREN;
+//sequence slicing, i.e sq[1:2] or sq[j:i]
+sequence_slicing ::= name LBRACK ar_expression COLON ar_expression RBRACK
+	| name LBRACK COLON ar_expression RBRACK
+	| name LBRACK ar_expression COLON RBRACK;
+
+//ariphmentic operations	
+ar_operation ::= PLUS
+	| MINUS
+	| DIVIDE
+	| TIMES;
+//ariphmetic operand in ar expression
+ar_operand ::= 
+	 func_call
+	| INTEGER
+	| FLOAT;
+// ariphmetic expression
+ar_expression ::= ar_operand ar_operation ar_operand
+	| name ar_operation ar_operand
+	| ar_operand ar_operation name
+	| name ar_operation name
+	| ar_expression ar_operation ar_operand
+	| ar_expression ar_operation name
+	| LPAREN ar_expression RPAREN;
+//comparison expression
+comparison_exp ::= comp_operand comparison_op comp_operand;
+//comparison operation 
+comparison_op ::= EQ
+	| NEQ
+	| LESS
+	| LESSEQ
+	| GREATER
+	| GREATEREQ;
+//comparison operand
+comp_operand ::= name
+	| ar_operand
+	| ar_expression;	
+//boolean operand in boolean expression
+bool_operand ::=
+	comparison_exp;
+//logical operation
+logic_operation ::= OR
+	| AND
+	| NOT;
+//boolean expression
+bool_exp ::= 
+	bool_operand
+	| name logic_operation bool_operand
+	| bool_operand logic_operation name
+	| name logic_operation name
+	| bool_operand logic_operation bool_operand
+	| bool_exp logic_operation bool_operand
+	| bool_exp logic_operation name
+	| LPAREN bool_exp RPAREN; 
+//concatenation operand
+concat_operand ::= 
+	 list;
+//concatenation expression
+concat_expr ::= concat_operand CONCAT concat_operand
+	| name CONCAT concat_operand
+	| concat_operand CONCAT name
+	| name CONCAT name
+	| concat_expr CONCAT name
+	| concat_expr CONCAT concat_operand;
+//expression
+expression ::= ar_expression
+	| bool_exp
+	| concat_expr;
+
+// functions defenition that returns
+func_def_retrn ::= FDEF name LPAREN param_list RPAREN COLON type LCBRACK func_body return_statement RCBRACK;
+//function defenition that doesnt return 
+func_def_noretrn ::= FDEF name LPAREN param_list RPAREN COLON type LCBRACK func_body RCBRACK;
+//the body of a statement or function
+body ::= var_declr statement_list;
+//parameters list when defining a function
+param_list ::= name COLON type
+	| name COLON type COMMA param_list;
+//actual parameters list when calling a function
+actual_param_list ::= expression
+	| expression COMMA actual_param_list;
+
+//function call
+func_call ::= ID LPAREN actual_param_list RPAREN;
+//assignment statement
+assignment ::= name ASSIGN name SEMI
+	| name ASSIGN expression SEMI
+	| list_index ASSIGN expression SEMI;
+//if statement
+if_statement ::= IF LPAREN bool_exp RPAREN  LCBRACK body RCBRACK else_opt;
+//else statement
+else_statement ::= ELSE LCBRACK body RCBRACK;
+// else optional
+else_opt ::= 
+	| else_statement;
+//while statement
+while_statement ::= WHILE LPAREN bool_exp RPAREN DO LCBRACK body RCBRACK;
+//repeat statement
+repeat_statement ::= REPEAT LCBRACK body RCBRACK UNTIL LPAREN bool_exp RPAREN;
+//return statement
+return_statement ::= RETURN expression SEMI
+	| RETURN name SEMI;
+
+
+
+
+
+//statement 
+statement ::= assignment
+	| func_call SEMI
+	| if_statement
+	| while_statement
+	| repeat_statement
+	| return_statement;
+// statement list
+statement_list ::= statement_list statement
+	| statement;
+
+
+//data type declaration
+typedeclist ::= typedecl 
+		    | typedeclist typedecl;
+typedecl ::= TDEF ID COLON elementlist SEMI;	
+elementlist ::= element
+			| elementlist COMMA element;
+element ::= ID COLON type;
+
+//variable declaration
+vardeclist ::= var_declr SEMI
+		   | vardeclist var_declr SEMI;
+var_declr ::= var_single_declr
+	      | var_declr_init;
+var_single_declr ::= ID COLON type;
+var_declr_init ::= ID COLON TUPLETYPE ASSIGN tuple 		
+                   | ID COLON INTEGERTYPE ASSIGN INTEGER
+				   | ID COLON STRINGTYPE ASSIGN STRING
+                   | ID COLON ID ASSIGN valuelist
+				   | ID COLON CHARTYPE ASSIGN CHAR 
+ 				   | ID COLON LISTTYPE ASSIGN list 
+				   | ID COLON BOOLTYPE ASSIGN BOOL
+				   | ID COLON FLOATTYPE ASSIGN FLOAT; 
+valuelist ::= value
+			| valuelist value;
+			
+value ::= BOOL
+	  | INTEGER
+	  | FLOAT
+	  | CHAR
+	  | STRING
+	  | list
+	  | tuple;
