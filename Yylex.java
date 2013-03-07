@@ -9,7 +9,11 @@ import java_cup.runtime.*;
  * <a href="http://www.jflex.de/">JFlex</a> 1.4.3
  * on 05/03/13 11:25 from the specification file
 <<<<<<< HEAD
+<<<<<<< HEAD
  * <tt>C:/Users/zcabh_000/Documents/GitHub/compilerCwk/q.flex</tt>
+=======
+ * <tt>C:/Users/zcabh_000/Dropbox/COMP2010 Compiler/workspace/q.flex</tt>
+>>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
 =======
  * <tt>C:/Users/zcabh_000/Dropbox/COMP2010 Compiler/workspace/q.flex</tt>
 >>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
@@ -777,6 +781,7 @@ class Yylex implements java_cup.runtime.Scanner {
           }
         case 76: break;
 <<<<<<< HEAD
+<<<<<<< HEAD
         case 39: 
           { return new Symbol(sym.FLOAT, (new Float(yytext())).floatValue());
           }
@@ -853,6 +858,8 @@ class Yylex implements java_cup.runtime.Scanner {
           { return new Symbol(sym.TDEF);
           }
 =======
+=======
+>>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
         case 13: 
           { return new Symbol(sym.RPAREN);
           }
@@ -928,6 +935,9 @@ class Yylex implements java_cup.runtime.Scanner {
         case 39: 
           { return new Symbol(sym.FLOAT, (new Integer(yytext())).intValue());
           }
+<<<<<<< HEAD
+>>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
+=======
 >>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
         case 95: break;
         case 29: 
@@ -971,6 +981,7 @@ class Yylex implements java_cup.runtime.Scanner {
           }
         case 105: break;
 <<<<<<< HEAD
+<<<<<<< HEAD
         case 43: 
           { return new Symbol(sym.BOOL,(new Boolean(yytext())).booleanValue());
           }
@@ -999,6 +1010,8 @@ class Yylex implements java_cup.runtime.Scanner {
           { return new Symbol(sym.NOT);
           }
 =======
+=======
+>>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
         case 15: 
           { return new Symbol(sym.LBRACK);
           }
@@ -1026,6 +1039,9 @@ class Yylex implements java_cup.runtime.Scanner {
         case 43: 
           { return new Symbol(sym.BOOL, yytext());
           }
+<<<<<<< HEAD
+>>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
+=======
 >>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
         case 112: break;
         case 53: 
