@@ -269,34 +269,34 @@ statement_list ::= statement_list statement {: System.out.println("statement_lis
 
 
 //data type declaration
-typedeclist ::= typedecl 
-		    | typedeclist typedecl;
-typedecl ::= TDEF ID COLON elementlist SEMI;	
-elementlist ::= element
-			| elementlist COMMA element;
-element ::= ID COLON type;
+typedeclist ::= typedecl {: System.out.println("typedeclist ::= typedecl"); :}
+		    | typedeclist typedecl {: System.out.println("typedeclist ::= typedeclist typedecl"); :};
+typedecl ::= TDEF ID COLON elementlist SEMI {: System.out.println("typedecl ::= TDEF ID COLON elementlist SEMI"); :};	
+elementlist ::= element {: System.out.println("elementlist ::= element"); :}
+			| elementlist COMMA element {: System.out.println("elementlist ::= elementlist COMMA element"); :};
+element ::= ID COLON type {: System.out.println("element ::= ID COLON type"); :};
 
 //variable declaration
-vardeclist ::= var_declr SEMI
-		   | vardeclist var_declr SEMI;
-var_declr ::= var_single_declr
-	      | var_declr_init;
-var_single_declr ::= ID COLON type;
-var_declr_init ::= ID COLON TUPLETYPE ASSIGN tuple 		
-                   | ID COLON INTEGERTYPE ASSIGN INTEGER
-				   | ID COLON STRINGTYPE ASSIGN STRING
-                   | ID COLON ID ASSIGN valuelist
-				   | ID COLON CHARTYPE ASSIGN CHAR 
- 				   | ID COLON LISTTYPE ASSIGN list 
-				   | ID COLON BOOLTYPE ASSIGN BOOL
-				   | ID COLON FLOATTYPE ASSIGN FLOAT; 
-valuelist ::= value
-			| valuelist value;
+vardeclist ::= var_declr SEMI {: System.out.println("vardeclist ::= var_declr SEMI"); :}
+		   | vardeclist var_declr SEMI {: System.out.println("vardeclist ::= vardeclist var_declr SEMI"); :};
+var_declr ::= var_single_declr {: System.out.println("var_decl ::= var_single_declr"); :}
+	      | var_declr_init {: System.out.println("var_decl ::= var_decl_init"); :};
+var_single_declr ::= ID COLON type {: System.out.println("var_single_decl ::= ID COLON type"); :};
+var_declr_init ::= ID COLON TUPLETYPE ASSIGN tuple {: System.out.println("var_decl_init ::= ID COLON TUPLETYPE ASSIGN tuple"); :}	 
+                   | ID COLON INTEGERTYPE ASSIGN INTEGER {: System.out.println("var_decl_init ::= ID COLON INTEGERTYPE ASSIGN INTEGER"); :}
+				   | ID COLON STRINGTYPE ASSIGN STRING {: System.out.println("var_decl_init ::= ID COLON STRINGTYPE ASSIGN STRING"); :}
+                   | ID COLON ID ASSIGN valuelist {: System.out.println("var_decl_init ::= ID COLON ID ASSIGN valuelist"); :}
+				   | ID COLON CHARTYPE ASSIGN CHAR {: System.out.println("var_decl_init ::= ID COLON CHARTYPE ASSIGN CHAR"); :}
+ 				   | ID COLON LISTTYPE ASSIGN list {: System.out.println("var_decl_init ::= ID COLON LISTTYPE ASSIGN list"); :}
+				   | ID COLON BOOLTYPE ASSIGN BOOL {: System.out.println("var_decl_init ::= ID COLON BOOLTYPE ASSIGN BOOL"); :}
+				   | ID COLON FLOATTYPE ASSIGN FLOAT {: System.out.println("var_decl_init ::= ID COLON FLOATTYPE ASSIGN FLOAT"); :};
+valuelist ::= value {: System.out.println("valuelist ::= value"); :}
+			| valuelist value {: System.out.println("valuelist ::= valuelist value"); :};
 			
-value ::= BOOL
-	  | INTEGER
-	  | FLOAT
-	  | CHAR
-	  | STRING
-	  | list
-	  | tuple;
+value ::= BOOL {: System.out.println("value ::= BOOL"); :}
+	  | INTEGER {: System.out.println("value ::= INTEGER"); :}
+	  | FLOAT {: System.out.println("value ::= FLOAT"); :}
+	  | CHAR {: System.out.println("value ::= CHAR"); :}
+	  | STRING {: System.out.println("value ::= STRING"); :}
+	  | list {: System.out.println("value ::= list"); :}
+	  | tuple {: System.out.println("value ::= tuple"); :};
