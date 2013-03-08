@@ -160,112 +160,112 @@ ar_operation ::= PLUS {: System.out.println("Ariphmentic operation +"); :}
 	| TIMES {: System.out.println("Ariphmentic operation *"); :};
 //ariphmetic operand in ar expression
 ar_operand ::= 
-	 func_call
-	| INTEGER
-	| FLOAT;
+	 func_call {: System.out.println("ar_operand ::= func_call"); :}
+	| INTEGER {: System.out.println("ar_operand ::= INTEGER"); :}
+	| FLOAT {: System.out.println("ar_operand ::= FLOAT"); :};
 // ariphmetic expression
 ar_expression ::= ar_operand ar_operation ar_operand {: System.out.println("Ariphmentic expression ar_operand ar_operation ar_operand"); :}
-	| name ar_operation ar_operand
-	| ar_operand ar_operation name
-	| name ar_operation name
-	| ar_expression ar_operation ar_operand
-	| ar_expression ar_operation name
-	| LPAREN ar_expression RPAREN;
+	| name ar_operation ar_operand {: System.out.println("Ariphmentic expression name ar_operation ar_operand"); :}
+	| ar_operand ar_operation name {: System.out.println("Ariphmentic expression ar_operand ar_operation name"); :}
+	| name ar_operation name {: System.out.println("Ariphmentic expression ar_operand ar_operation ar_operand"); :}
+	| ar_expression ar_operation ar_operand {: System.out.println("Ariphmentic expression ar_expression ar_operation ar_operand"); :}
+	| ar_expression ar_operation name {: System.out.println("Ariphmentic expression ar_expression ar_operation name"); :}
+	| LPAREN ar_expression RPAREN {: System.out.println("Ariphmentic expression LPAREN ar_expression LPAREN"); :};
 //comparison expression
-comparison_exp ::= comp_operand comparison_op comp_operand;
+comparison_exp ::= comp_operand comparison_op comp_operand {: System.out.println("comparison_exp ::= comp_operand comparison_op comp_operand"); :};
 
 //comparison operation 
-comparison_op ::= EQ
-	| NEQ
-	| LESS
-	| LESSEQ
-	| GREATER
-	| GREATEREQ;
+comparison_op ::= EQ {: System.out.println("comparison_op ::= EQ"); :}
+	| NEQ {: System.out.println("comparison_op ::= NEQ"); :}
+	| LESS {: System.out.println("comparison_op ::= LESS"); :} 
+	| LESSEQ {: System.out.println("comparison_op ::= LESSEQ"); :}
+	| GREATER {: System.out.println("comparison_op ::= GREATER"); :}
+	| GREATEREQ {: System.out.println("comparison_op ::= GREATEREQ"); :};
 //comparison operand
-comp_operand ::= name
-	| ar_operand
-	| ar_expression;	
+comp_operand ::= name {: System.out.println("comp_operand ::= name"); :}
+	| ar_operand {: System.out.println("comp_operand ::= ar_operand"); :}
+	| ar_expression {: System.out.println("comp_operand ::= ar_expression"); :};	
 //boolean operand in boolean expression
-bool_operand ::=
-	comparison_exp;
+bool_operand ::= 
+	comparison_exp {: System.out.println("bool_operand ::= comparison_exp"); :};
 //logical operation
-logic_operation ::= OR
-	| AND
-	| NOT;
+logic_operation ::= OR {: System.out.println("logic_operation ::= OR"); :}
+	| AND {: System.out.println("logic_operation ::= AND"); :}
+	| NOT {: System.out.println("logic_operation ::= NOT"); :};
 
 //logical expression
 logic_expr ::= 
-	comparison_exp logic_operation comparison_exp
-	| name logic_operation name
-	| comparison_exp logic_operation name
-	| name logic_operation comparison_exp;
+	comparison_exp logic_operation comparison_exp {: System.out.println("logic_expr ::= comparison_exp logic_operation comparison_exp"); :}
+	| name logic_operation name {: System.out.println("logic_expr ::= name logic_operation name"); :}
+	| comparison_exp logic_operation name {: System.out.println("logic_expr ::= comparison_exp logic_operation name"); :}
+	| name logic_operation comparison_exp {: System.out.println("logic_expr ::= name logic_operation comparison_exp"); :};
 //boolean expression
-bool_exp ::= comparison_exp
-	| logic_expr;
+bool_exp ::= comparison_exp {: System.out.println("bool_exp ::= comparison_exp"); :}
+	| logic_expr {: System.out.println("bool_exp ::= logic_exp"); :};
 
 //concatenation operand
 concat_operand ::= 
-	 list;
+	 list {: System.out.println("concat_operand ::= list"); :};
 //concatenation expression
-concat_expr ::= concat_operand CONCAT concat_operand
-	| name CONCAT concat_operand
-	| concat_operand CONCAT name
-	| name CONCAT name
-	| concat_expr CONCAT name
-	| concat_expr CONCAT concat_operand;
+concat_expr ::= concat_operand CONCAT concat_operand {: System.out.println("concat_expr ::= concat_operand CONCAT concat_operand"); :}
+	| name CONCAT concat_operand {: System.out.println("concat_expr ::= concat_operand CONCAT concat_operand"); :}
+	| concat_operand CONCAT name {: System.out.println("concat_expr ::= concat_operand CONCAT name"); :}
+	| name CONCAT name {: System.out.println("concat_expr ::= name CONCAT name"); :}
+	| concat_expr CONCAT name {: System.out.println("concat_expr ::= concat_expr CONCAT name"); :}
+	| concat_expr CONCAT concat_operand {: System.out.println("concat_expr ::= concat_expr CONCAT concat_operand"); :};
 //expression
-expression ::= ar_expression
-	| bool_exp
-	| concat_expr;
+expression ::= ar_expression {: System.out.println("expression ::= ar_expression"); :}
+	| bool_exp {: System.out.println("expression ::= bool_exp"); :}
+	| concat_expr {: System.out.println("expression ::= concat_exp"); :};
 
 // functions defenition that returns
-func_def_retrn ::= FDEF name LPAREN param_list RPAREN COLON type LCBRACK func_body return_statement RCBRACK;
+func_def_retrn ::= FDEF ID LPAREN param_list RPAREN COLON type LCBRACK func_body return_statement RCBRACK {: System.out.println("func_def_return ::= FDEF ID LPAREN..."); :};
 //function defenition that doesnt return 
-func_def_noretrn ::= FDEF name LPAREN param_list RPAREN COLON type LCBRACK func_body RCBRACK;
+func_def_noretrn ::= FDEF ID LPAREN param_list RPAREN COLON VOID LCBRACK func_body RCBRACK {: System.out.println("func_def_noreturn ::= FDEF ID LPAREN..."); :};
 //the body of a statement or function
-body ::= var_declr statement_list;
+body ::= var_declr statement_list {: System.out.println("body ::= var_declr statement_list"); :};
 //parameters list when defining a function
-param_list ::= name COLON type
-	| name COLON type COMMA param_list;
+param_list ::= name COLON type {: System.out.println("param_list ::= name COLON type"); :}
+	| name COLON type COMMA param_list {: System.out.println("param_list ::= name COLON type COMMA param_list"); :};
 //actual parameters list when calling a function
-actual_param_list ::= expression
-	| expression COMMA actual_param_list;
+actual_param_list ::= expression {: System.out.println("actual_param_list ::= expression"); :}
+	| expression COMMA actual_param_list {: System.out.println("actual_param_list ::= expression COMMA actual_param_list"); :};
 
 //function call
-func_call ::= ID LPAREN actual_param_list RPAREN;
+func_call ::= ID LPAREN actual_param_list RPAREN {: System.out.println("func_call ::= ID LPAREN actual_param_list RPAREN"); :};
 //assignment statement
-assignment ::= name ASSIGN name SEMI
-	| name ASSIGN expression SEMI
-	| name ASSIGN anyElement SEMI;
+assignment ::= name ASSIGN name SEMI {: System.out.println("assignment ::= name ASSIGN name SEMI"); :}
+	| name ASSIGN expression SEMI {: System.out.println("assignment ::= name ASSIGN expression SEMI"); :}
+	| name ASSIGN anyElement SEMI {: System.out.println("assignment ::= name ASSIGN anyElement SEMI"); :};
 //if statement
-if_statement ::= IF LPAREN bool_exp RPAREN  LCBRACK body RCBRACK else_opt;
+if_statement ::= IF LPAREN bool_exp RPAREN  LCBRACK body RCBRACK else_opt {: System.out.println("if_statement ::= IF LPAREN bool_exp RPAREN LCBRACK..."); :};
 //else statement
-else_statement ::= ELSE LCBRACK body RCBRACK;
+else_statement ::= ELSE LCBRACK body RCBRACK {: System.out.println("else_statement ::= ELSE LCBRACK body RCBRACK"); :};
 // else optional
-else_opt ::= 
-	| else_statement;
+else_opt ::= {: System.out.println("else_opt ::= "); :}
+	| else_statement {: System.out.println("else_opt ::= else_statement"); :};
 //while statement
-while_statement ::= WHILE LPAREN bool_exp RPAREN DO LCBRACK body RCBRACK;
+while_statement ::= WHILE LPAREN bool_exp RPAREN DO LCBRACK body RCBRACK {: System.out.println("while_statement ::= ..."); :};
 //repeat statement
-repeat_statement ::= REPEAT LCBRACK body RCBRACK UNTIL LPAREN bool_exp RPAREN;
+repeat_statement ::= REPEAT LCBRACK body RCBRACK UNTIL LPAREN bool_exp RPAREN {: System.out.println("repeat_statement ::= ..."); :};
 //return statement
-return_statement ::= RETURN expression SEMI
-	| RETURN name SEMI;
+return_statement ::= RETURN expression SEMI {: System.out.println("return_statement ::= RETURN expression SEMI"); :}
+	| RETURN name SEMI {: System.out.println("return_statement ::= RETURN name SEMI"); :};
 
 
 
 
 
 //statement 
-statement ::= assignment
-	| func_call SEMI
-	| if_statement
-	| while_statement
-	| repeat_statement
-	| return_statement;
+statement ::= assignment {: System.out.println("statement ::= assingment"); :}
+	| func_call SEMI {: System.out.println("statement ::= func_call"); :}
+	| if_statement {: System.out.println("statement ::= if_statement"); :}
+	| while_statement {: System.out.println("statement ::= while_statement"); :}
+	| repeat_statement {: System.out.println("statement ::= repeat_statement"); :}
+	| return_statement {: System.out.println("statement ::= return_statement"); :};
 // statement list
-statement_list ::= statement_list statement
-	| statement;
+statement_list ::= statement_list statement {: System.out.println("statement_list ::= statement_list statement"); :}
+	| statement {: System.out.println("statement_list ::= statement"); :};
 
 
 //data type declaration
