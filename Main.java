@@ -14,23 +14,36 @@ public class Main {
 
   static boolean do_debug_parse = false; 
   static public void main(String argv[]) {
-
   /* Start the parser */ 
   try { 
     FileReader reader = new FileReader(argv[0]);
-      parser p = new parser(new Yylex(reader)); 
-      Object result = p.parse(); 
-      if(result!=null)
+    Yylex scanner = new Yylex(reader);
+      parser p = new parser(scanner); 
+      //Object result = p.parse(); 
+      p.debug_parse();
+    //  if(result!=null)
         System.out.println("Parsing is successful");
       //System.out.println(result.toString());
     //  System.out.println("Test1");
     } catch (Exception e) { 
-      System.out.println("Error"+e.getMessage().toString());
+      System.out.println("Error");
     //  System.out.println(e.getMessage().toString());
-      /* do cleanup here -- possibly rethrow e */ 
-      } finally { 
-        /* do close out here */ 
+      // do cleanup here -- possibly rethrow e */ 
+      //} finally { 
+        // do close out here 
         } 
+/*      String dirName = null;
+try {
+
+dirName = argv[1];
+
+parser p = new parser( new File( dirName, argv[2] ) );
+Object result = p.debug_parse(); // For debugging
+}
+catch ( Exception e ) {
+System.err.println( "Exception at " );
+e.printStackTrace();
+}*/
   } 
 }
 

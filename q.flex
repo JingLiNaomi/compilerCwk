@@ -28,7 +28,7 @@ char = \'({letter}|{digit})\'
 float = {integer}"."{digit}+
 %%
 
-<YYINITIAL>"+" {return new Symbol(sym.PLUS);}
+<YYINITIAL>"+" {System.out.println("Obtain token: "+yytext()); return new Symbol(sym.PLUS);}
 <YYINITIAL>"*" {return new Symbol(sym.TIMES);}
 <YYINITIAL>"-" {return new Symbol(sym.MINUS);}
 <YYINITIAL>"/" {return new Symbol(sym.DIVIDE);}
@@ -82,7 +82,7 @@ float = {integer}"."{digit}+
 <YYINITIAL>{integer} {return new Symbol(sym.INTEGER, (new Integer(yytext())).intValue());}
 <YYINITIAL>{float} {return new Symbol(sym.FLOAT, (new Float(yytext())).floatValue());}
 <YYINITIAL>{char} {return new Symbol(sym.CHAR, (new Character(yytext().charAt(0))).charValue());}
-<YYINITIAL>{identifier} {return new Symbol(sym.ID, yytext());}
+<YYINITIAL>{identifier} {System.out.println("Obtain token: "+yytext()); return new Symbol(sym.ID, yytext());}
 <YYINITIAL>{whitespace} {}
 <YYINITIAL>"/*" {yybegin(COMMENT);}
 <COMMENT>"*/" {yybegin(YYINITIAL);}

@@ -3,14 +3,3 @@ b=a;
 b=a/e;
 a=b-f;
 a=(a-b+3);
-
-n=true;
-n=false;
-y=45;
-str = "sdf_f ";
-i=2.3;
-a='a';
-while(f>2)
-{
-d=f+1;
-}

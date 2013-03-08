@@ -786,124 +786,124 @@ class Yylex implements java_cup.runtime.Scanner {
           { return new Symbol(sym.MINUS);
           }
         case 80: break;
-        case 7: 
-          { return new Symbol(sym.PLUS);
-          }
-        case 81: break;
         case 49: 
           { return new Symbol(sym.BOOLTYPE);
           }
-        case 82: break;
+        case 81: break;
         case 25: 
           { yybegin(YYINITIAL);
           }
-        case 83: break;
+        case 82: break;
         case 48: 
           { return new Symbol(sym.VOID);
           }
-        case 84: break;
+        case 83: break;
         case 45: 
           { return new Symbol(sym.ELSE);
           }
-        case 85: break;
+        case 84: break;
         case 28: 
           { yybegin(COMMENT);
           }
-        case 86: break;
-        case 4: 
-          { return new Symbol(sym.ID, yytext());
-          }
-        case 87: break;
+        case 85: break;
         case 16: 
           { return new Symbol(sym.LCBRACK);
           }
-        case 88: break;
+        case 86: break;
         case 24: 
           { string = ""; yybegin(STRING);
           }
-        case 89: break;
+        case 87: break;
         case 34: 
           { return new Symbol(sym.LESSEQ);
           }
-        case 90: break;
+        case 88: break;
         case 18: 
           { return new Symbol(sym.COMMA);
           }
-        case 91: break;
+        case 89: break;
         case 50: 
           { return new Symbol(sym.CHARTYPE);
           }
-        case 92: break;
+        case 90: break;
         case 20: 
           { return new Symbol(sym.STROKE);
           }
-        case 93: break;
+        case 91: break;
         case 21: 
           { return new Symbol(sym.GREATER);
           }
-        case 94: break;
+        case 92: break;
         case 44: 
           { return new Symbol(sym.TDEF);
           }
-        case 95: break;
+        case 93: break;
         case 29: 
           { yybegin(LINECOMMENT);
           }
-        case 96: break;
+        case 94: break;
         case 11: 
           { return new Symbol(sym.ASSIGN);
           }
-        case 97: break;
+        case 95: break;
         case 55: 
           { return new Symbol(sym.RETURN);
           }
-        case 98: break;
+        case 96: break;
         case 42: 
           { return new Symbol(sym.INTEGERTYPE);
           }
-        case 99: break;
+        case 97: break;
         case 30: 
           { return new Symbol(sym.CONCAT);
           }
-        case 100: break;
+        case 98: break;
         case 1: 
           { System.out.println("error: unknown character " + yytext() + " found at line " + yyline);
           }
-        case 101: break;
+        case 99: break;
         case 6: 
           { return new Symbol(sym.DOT);
           }
-        case 102: break;
+        case 100: break;
+        case 4: 
+          { System.out.println("Obtain token: "+yytext()); return new Symbol(sym.ID, yytext());
+          }
+        case 101: break;
         case 33: 
           { return new Symbol(sym.GREATEREQ);
           }
-        case 103: break;
+        case 102: break;
         case 19: 
           { return new Symbol(sym.SEMI);
           }
-        case 104: break;
+        case 103: break;
         case 27: 
           { yybegin(YYINITIAL); return new Symbol(sym.STRING,new String(string));
           }
-        case 105: break;
+        case 104: break;
         case 43: 
           { return new Symbol(sym.BOOL,(new Boolean(yytext())).booleanValue());
           }
-        case 106: break;
+        case 105: break;
         case 15: 
           { return new Symbol(sym.LBRACK);
           }
-        case 107: break;
+        case 106: break;
         case 41: 
           { return new Symbol(sym.CHAR, (new Character(yytext().charAt(0))).charValue());
           }
-        case 108: break;
+        case 107: break;
         case 2: 
           { return new Symbol(sym.INTEGER, (new Integer(yytext())).intValue());
           }
-        case 109: break;
+        case 108: break;
         case 12: 
           { return new Symbol(sym.LPAREN);
+          }
+        case 109: break;
+        case 7: 
+          { System.out.println("Obtain token: "+yytext()); return new Symbol(sym.PLUS);
           }
         case 110: break;
         case 38: 
