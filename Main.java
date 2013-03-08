@@ -19,8 +19,8 @@ public class Main {
     FileReader reader = new FileReader(argv[0]);
     Yylex scanner = new Yylex(reader);
       parser p = new parser(scanner); 
-      //Object result = p.parse(); 
-      p.debug_parse();
+      Object result = p.parse(); 
+    //  p.debug_parse();
     //  if(result!=null)
         System.out.println("Parsing is successful");
       //System.out.println(result.toString());

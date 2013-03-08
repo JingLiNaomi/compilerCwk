@@ -154,17 +154,17 @@ sequence_slicing ::= name LBRACK ar_expression COLON ar_expression RBRACK
 	| name LBRACK ar_expression COLON RBRACK;
 
 //ariphmentic operations	
-ar_operation ::= PLUS
-	| MINUS
-	| DIVIDE
-	| TIMES;
+ar_operation ::= PLUS {: System.out.println("Ariphmentic operation +"); :}
+	| MINUS {: System.out.println("Ariphmentic operation -"); :}
+	| DIVIDE {: System.out.println("Ariphmentic operation /"); :}
+	| TIMES {: System.out.println("Ariphmentic operation *"); :};
 //ariphmetic operand in ar expression
 ar_operand ::= 
 	 func_call
 	| INTEGER
 	| FLOAT;
 // ariphmetic expression
-ar_expression ::= ar_operand ar_operation ar_operand
+ar_expression ::= ar_operand ar_operation ar_operand {: System.out.println("Ariphmentic expression ar_operand ar_operation ar_operand"); :}
 	| name ar_operation ar_operand
 	| ar_operand ar_operation name
 	| name ar_operation name
