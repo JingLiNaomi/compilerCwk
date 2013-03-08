@@ -1,21 +1,16 @@
 a=a+a;
 b=a;
 b=a/e;
-<<<<<<< HEAD
-<<<<<<< HEAD
 a=b-f;
 a=(a-b+3);
 
 n=true;
 n=false;
 y=45;
-str = "sdff";
+str = "sdf_f ";
 i=2.3;
 a='a';
-q=[];
-=======
-
->>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
-=======
-
->>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
+while(f>2)
+{
+d=f+1;
+}

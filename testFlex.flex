@@ -154,7 +154,7 @@ float = {integer}"."{digit}+
 <STRING> 
 { 
 \"                        { yybegin(YYINITIAL); return new Yytoken("STRING",new String(string)); } 
-([ ]|{letter}|{digit})+       {string+=yytext(); }          
+([^\"\n\t\r\']|{letter}|{digit})+       {string+=yytext(); }          
 }
 	   
 

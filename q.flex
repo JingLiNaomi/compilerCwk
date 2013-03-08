@@ -26,7 +26,6 @@ whitespace = [ \t\r\n\f]
 linecom = [\r\n]
 char = \'({letter}|{digit})\'
 float = {integer}"."{digit}+
-boolconst = true|false
 %%
 
 <YYINITIAL>"+" {return new Symbol(sym.PLUS);}
@@ -79,21 +78,9 @@ boolconst = true|false
 <YYINITIAL>"string" {return new Symbol(sym.STRINGTYPE);}
 <YYINITIAL>"tuple" {return new Symbol(sym.TUPLETYPE);}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 <YYINITIAL>{boolconst} {return new Symbol(sym.BOOL,(new Boolean(yytext())).booleanValue());}
 <YYINITIAL>{integer} {return new Symbol(sym.INTEGER, (new Integer(yytext())).intValue());}
 <YYINITIAL>{float} {return new Symbol(sym.FLOAT, (new Float(yytext())).floatValue());}
-=======
-<YYINITIAL>{boolconst} {return new Symbol(sym.BOOL, yytext());}
-<YYINITIAL>{integer} {return new Symbol(sym.INTEGER, (new Integer(yytext())).intValue());}
-<YYINITIAL>{float} {return new Symbol(sym.FLOAT, (new Integer(yytext())).intValue());}
->>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
-=======
-<YYINITIAL>{boolconst} {return new Symbol(sym.BOOL, yytext());}
-<YYINITIAL>{integer} {return new Symbol(sym.INTEGER, (new Integer(yytext())).intValue());}
-<YYINITIAL>{float} {return new Symbol(sym.FLOAT, (new Integer(yytext())).intValue());}
->>>>>>> 2f8237ba8f0e94679400516cf2051913a4c1af21
 <YYINITIAL>{char} {return new Symbol(sym.CHAR, (new Character(yytext().charAt(0))).charValue());}
 <YYINITIAL>{identifier} {return new Symbol(sym.ID, yytext());}
 <YYINITIAL>{whitespace} {}
@@ -105,7 +92,7 @@ boolconst = true|false
 <LINECOMMENT>. {}
 <YYINITIAL>. {System.out.println("error: unknown character " + yytext() + " found at line " + yyline);}
 <STRING> { \"  { yybegin(YYINITIAL); return new Symbol(sym.STRING,new String(string)); } 
-       ([ ]|{letter}|{digit})+       {string+=yytext(); }    }
+       ([^\"\n\t\r]|{letter}|{digit})+       {string+=yytext(); }    }
 	   
 
 
