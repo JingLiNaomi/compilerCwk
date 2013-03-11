@@ -1,0 +1,54 @@
+import java_cup.runtime.*;
+import java.util.*;
+import java.io.*;
+
+
+// operations
+terminal PLUS, TIMES, MINUS,DIVIDE, CONCAT, ASSIGN;
+//types
+terminal FLOAT, INTEGER,STRING,CHAR,BOOL, ID;
+//type definitions
+terminal FLOATTYPE, INTEGERTYPE, STRINGTYPE, CHARTYPE, LISTTYPE, TUPLETYPE, BOOLTYPE; 
+// punctutation
+terminal  DOT, COMMA, COLON, STROKE,LCBRACK, RCBRACK,LPAREN, RPAREN,SEMI,LBRACK,RBRACK;
+//keywords
+terminal LEN, VOID,FDEF, IF, ELSE, WHILE, REPEAT, RETURN, UNTIL, DO;
+//logica operations
+terminal OR, AND, NOT;
+//comparison
+terminal EQ, LESS, GREATER, LESSEQ, GREATEREQ, NEQ;
+//data type declaration
+terminal TDEF;  
+
+non terminal goal;
+non terminal list;
+
+precedence left PLUS;
+precedence left TIMES;
+
+
+
+start with goal;
+
+goal ::= list {: System.out.println("list parsing successfully!"); :}
+	;
+	
+list ::= 	LBRACK RBRACK
+	;
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

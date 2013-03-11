@@ -8,6 +8,8 @@ import java_cup.runtime.*;
 %line
 %column
 
+
+
 %state COMMENT
 %state LINECOMMENT
 %state STRING
@@ -37,8 +39,8 @@ float = {integer}"."{digit}+
 
 <YYINITIAL>"(" {return new Symbol(sym.LPAREN);}
 <YYINITIAL>")" {return new Symbol(sym.RPAREN);}
-<YYINITIAL>"[" {return new Symbol(sym.RBRACK);}
-<YYINITIAL>"]" {return new Symbol(sym.LBRACK);}
+<YYINITIAL>"[" {return new Symbol(sym.LBRACK);}
+<YYINITIAL>"]" {return new Symbol(sym.RBRACK);}
 <YYINITIAL>"{" {return new Symbol(sym.LCBRACK);}
 <YYINITIAL>"}" {return new Symbol(sym.RCBRACK);}
 <YYINITIAL>"." {return new Symbol(sym.DOT);}
