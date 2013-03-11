@@ -264,8 +264,8 @@ statement ::= assignment {: System.out.println("statement ::= assingment"); :}
 	| repeat_statement {: System.out.println("statement ::= repeat_statement"); :}
 	| return_statement {: System.out.println("statement ::= return_statement"); :};
 // statement list
-statement_list ::= statement_list statement {: System.out.println("statement_list ::= statement_list statement"); :}
-	| statement {: System.out.println("statement_list ::= statement"); :};
+statement_list ::= statement {: System.out.println("statement_list ::= statement_list statement"); :}
+	| statement_list statement {: System.out.println("statement_list ::= statement"); :};
 
 
 //data type declaration

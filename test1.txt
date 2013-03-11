@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 []
+=======
+a=b+c;
+i=u+p;
+x=t+r;
+>>>>>>> Merge commit
