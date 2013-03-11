@@ -236,7 +236,8 @@ func_call ::= ID LPAREN actual_param_list RPAREN {: System.out.println("func_cal
 //assignment statement
 assignment ::= name ASSIGN name SEMI {: System.out.println("assignment ::= name ASSIGN name SEMI"); :}
 	| name ASSIGN expression SEMI {: System.out.println("assignment ::= name ASSIGN expression SEMI"); :}
-	| name ASSIGN anyElement SEMI {: System.out.println("assignment ::= name ASSIGN anyElement SEMI"); :};
+	| name ASSIGN anyElement SEMI {: System.out.println("assignment ::= name ASSIGN anyElement SEMI"); :}
+	| name ASSIGN tuple SEMI {: System.out.println("assignment ::= name ASSIGN tuple SEMI"); :};
 //if statement
 if_statement ::= IF LPAREN bool_exp RPAREN  LCBRACK body RCBRACK else_opt {: System.out.println("if_statement ::= IF LPAREN bool_exp RPAREN LCBRACK..."); :};
 //else statement
