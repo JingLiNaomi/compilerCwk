@@ -20,11 +20,12 @@ letter = [a-zA-Z]
 identifier = {letter}({letter}|{digit})*
 whitespace = [ \t\r\n\f]
 linecom = [\r\n]
+multiLineComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 char = \'({letter}|{digit})\'
 float = {digit}+[\.]{digit}*
 boolconst = "true"|"false"
 %%
-
+<YYINITIAL>{multiLineComment} {}
 <YYINITIAL>"+" {return new Symbol(sym.PLUS);}
 <YYINITIAL>"*" {return new Symbol(sym.TIMES);}
 <YYINITIAL>"-" {return new Symbol(sym.MINUS);}
@@ -82,11 +83,11 @@ boolconst = "true"|"false"
 
 <YYINITIAL>{boolconst} {return new Symbol(sym.BOOL,(new Boolean(yytext())).booleanValue());}
 <YYINITIAL>{integer} {return new Symbol(sym.INTEGER, (new Integer(yytext())).intValue());}
-<YYINITIAL>{float} {return new Symbol(sym.FLOAT, (new Integer(yytext())).intValue());}
+<YYINITIAL>{float} {return new Symbol(sym.FLOAT, (new Float(yytext())).floatValue());}
 <YYINITIAL>{char} {return new Symbol(sym.CHAR, (new Character(yytext().charAt(0))).charValue());}
 <YYINITIAL>{identifier} {return new Symbol(sym.ID, yytext());}
 <YYINITIAL>{whitespace} {}
-<YYINITIAL>"/*" {yybegin(COMMENT);}
+
 <COMMENT>"*/" {yybegin(YYINITIAL);}
 <COMMENT>. {}
 <YYINITIAL> "//" {yybegin(LINECOMMENT);}

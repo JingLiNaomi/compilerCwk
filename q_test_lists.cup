@@ -62,7 +62,8 @@ value ::= BOOL {: System.out.println("value ::= BOOL"); :}
 	  | STRING {: System.out.println("value ::= STRING"); :}
 	  | list {: System.out.println("value ::= list"); :}
 	  | tuple {: System.out.println("value ::= tuple"); :};
-
+valuelist ::= value {: System.out.println("valuelist ::= value"); :}
+			| valuelist COMMA value {: System.out.println("valuelist ::= valuelist value"); :};
 //any list
 list ::= emptyList {:System.out.println("list ::= emptyList");:}
 	| stringList {:System.out.println("list ::= stringList");:}
@@ -125,6 +126,21 @@ assignment ::= name ASSIGN name SEMI {: System.out.println("assignment ::= name 
 	//| name ASSIGN expression SEMI {: System.out.println("assignment ::= name ASSIGN expression SEMI"); :}
 	| name ASSIGN value SEMI {: System.out.println("assignment ::= name ASSIGN anyElement SEMI"); :};
 //	| name ASSIGN tuple SEMI {: System.out.println("assignment ::= name ASSIGN tuple SEMI"); :};
+
+//empty tuple
+emptyTuple ::= LBRACK STROKE STROKE RBRACK {:System.out.println("emptyTuple ::= LBRACK STROKE STROKE RBRACK ");:};
+//tupple
+tuple ::= emptyTuple  {:System.out.println("tuple ::= emptyTuple");:}
+	| LBRACK STROKE valuelist STROKE RBRACK {:System.out.println("tuple ::= LBRACK STROKE listOfAnyElements STROKE RBRACK");:};
+	//| LBRACK STROKE tuple COMMA tuple STROKE RBRACK {:System.out.println("tuple ::= LBRACK STROKE listOfAnyElements STROKE RBRACK");:};
+// comma optional
+comma_op ::=  {:System.out.println("comma_op ::= emptyString");:}
+	| COMMA {:System.out.println("comma_op ::= COMMA");:};
+//tuple optional
+tuple_op ::= {:System.out.println("tuple_op ::= emptyString");:}
+	| tuple {:System.out.println("tuple_op ::= tuple");:};
+//function call
+//func_call ::= ID LPAREN actual_param_list RPAREN {: System.out.println("func_call ::= ID LPAREN actual_param_list RPAREN"); :};
 //statement 
 statement ::= assignment {: System.out.println("statement ::= assingment"); :};
 //	| func_call SEMI {: System.out.println("statement ::= func_call"); :}

@@ -120,7 +120,8 @@ anyElement ::= INTEGER {:System.out.println("anyElement ::= INTEGER");:}
 	| STRING {:System.out.println("anyElement ::= STRING");:}
 	| CHAR {:System.out.println("anyElement ::= CHAR");:}
 	| BOOL {:System.out.println("anyElement ::= BOOL");:}
-	| list {:System.out.println("anyElement ::= list");:}; 
+	| list {:System.out.println("anyElement ::= list");:}
+	| tuple {:System.out.println("anyElement ::= tuple"); :}; 
 // any element list
 /*anyElemList ::= LBRACK listOfAnyElems RBRACK 
 	| LBRACK listOfListsOfAnyElems RBRACK; 
@@ -292,7 +293,7 @@ var_declr_init ::= ID COLON TUPLETYPE ASSIGN tuple {: System.out.println("var_de
 				   | ID COLON BOOLTYPE ASSIGN BOOL {: System.out.println("var_decl_init ::= ID COLON BOOLTYPE ASSIGN BOOL"); :}
 				   | ID COLON FLOATTYPE ASSIGN FLOAT {: System.out.println("var_decl_init ::= ID COLON FLOATTYPE ASSIGN FLOAT"); :};
 valuelist ::= value {: System.out.println("valuelist ::= value"); :}
-			| valuelist value {: System.out.println("valuelist ::= valuelist value"); :};
+			| valuelist COMMA value {: System.out.println("valuelist ::= valuelist value"); :};
 			
 value ::= BOOL {: System.out.println("value ::= BOOL"); :}
 	  | INTEGER {: System.out.println("value ::= INTEGER"); :}
