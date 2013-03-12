@@ -40,11 +40,13 @@ declaration_list ::= declaration_list declaration_opt
 	| declaration_opt
 	;
 	
-declaration_opt ::= var_declr
+declaration_opt ::= declaration
+	|;
+
+declaration ::= var_declr
 	| func_declr
 	| type_declr
-	|;
-	
+	;
 	
 main ::= LCBRACK main_body RCBRACK
 	;
@@ -56,7 +58,7 @@ var_declr_list_opt ::= var_declr_list
 	|;
 
 	
-/* BELOW FOR TESTING */
+/* TODO BELOW  */
 var_declr ::= PLUS;
 func_declr	::= PLUS;
 type_declr	::= PLUS;

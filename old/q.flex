@@ -2,9 +2,13 @@ import java_cup.runtime.*;
 
 
 %%
- 
-%cup 
+
+%unicode
+%cup
 %line
+%column
+
+
 
 %state COMMENT
 %state LINECOMMENT
@@ -12,20 +16,26 @@ import java_cup.runtime.*;
 
 
 %{
-private String string;
+	private String string;
 %}
+
 digit = [0-9]
-integer = {digit}+
+integer = -?[0-9]+
 letter = [a-zA-Z]
 identifier = {letter}({letter}|{digit})*
+boolconst = "true"|"false"
 whitespace = [ \t\r\n\f]
 linecom = [\r\n]
 char = \'({letter}|{digit})\'
+<<<<<<< HEAD:q.flex
 float = {digit}+[\.]{digit}*
 boolconst = "true"|"false"
+=======
+float = {integer}"."{digit}+
+>>>>>>> dd6f4b07c1895bf0db60b3f0a615f108a8343e28:old/q.flex
 %%
 
-<YYINITIAL>"+" {return new Symbol(sym.PLUS);}
+<YYINITIAL>"+" {System.out.println("Obtain token: "+yytext()); return new Symbol(sym.PLUS);}
 <YYINITIAL>"*" {return new Symbol(sym.TIMES);}
 <YYINITIAL>"-" {return new Symbol(sym.MINUS);}
 <YYINITIAL>"/" {return new Symbol(sym.DIVIDE);}
@@ -34,8 +44,8 @@ boolconst = "true"|"false"
 
 <YYINITIAL>"(" {return new Symbol(sym.LPAREN);}
 <YYINITIAL>")" {return new Symbol(sym.RPAREN);}
-<YYINITIAL>"]" {return new Symbol(sym.RBRACK);}
 <YYINITIAL>"[" {return new Symbol(sym.LBRACK);}
+<YYINITIAL>"]" {return new Symbol(sym.RBRACK);}
 <YYINITIAL>"{" {return new Symbol(sym.LCBRACK);}
 <YYINITIAL>"}" {return new Symbol(sym.RCBRACK);}
 <YYINITIAL>"." {return new Symbol(sym.DOT);}
@@ -49,6 +59,7 @@ boolconst = "true"|"false"
 <YYINITIAL>">" {return new Symbol(sym.GREATER);}
 <YYINITIAL>"<" {return new Symbol(sym.LESS);}
 <YYINITIAL>"<=" {return new Symbol(sym.LESSEQ);}
+<YYINITIAL>"!=" {return new Symbol(sym.NEQ);}
 <YYINITIAL>\" {string = ""; yybegin(STRING);}
 <YYINITIAL>"if" {return new Symbol(sym.IF);}
 <YYINITIAL>"else" {return new Symbol(sym.ELSE);}
@@ -57,6 +68,7 @@ boolconst = "true"|"false"
 <YYINITIAL>"repeat" {return new Symbol(sym.REPEAT);}
 <YYINITIAL>"until" {return new Symbol(sym.UNTIL);}
 <YYINITIAL>"void" {return new Symbol(sym.VOID);}
+<<<<<<< HEAD:q.flex
 
 <YYINITIAL>"or" {return new Symbol(sym.OR);}
 <YYINITIAL>"and" {return new Symbol(sym.AND);}
@@ -80,11 +92,30 @@ boolconst = "true"|"false"
 	"fdef" {return new Symbol(sym.FDEF);}
 }
 
+=======
+<YYINITIAL>"return" {return new Symbol(sym.RETURN);}
+<YYINITIAL>"len" {return new Symbol(sym.LEN);}
+<YYINITIAL>"fdef" {return new Symbol(sym.FDEF);}
+
+<YYINITIAL>"||" {return new Symbol(sym.OR);}
+<YYINITIAL>"&&" {return new Symbol(sym.AND);}
+<YYINITIAL>"!" {return new Symbol(sym.NOT);}
+
+<YYINITIAL>"tdef" {return new Symbol(sym.TDEF);}
+<YYINITIAL>"bool" {return new Symbol(sym.BOOLTYPE);}
+<YYINITIAL>"int" {return new Symbol(sym.INTEGERTYPE);}
+<YYINITIAL>"float" {return new Symbol(sym.FLOATTYPE);}
+<YYINITIAL>"char" {return new Symbol(sym.CHARTYPE);}
+<YYINITIAL>"list" {return new Symbol(sym.LISTTYPE);}
+<YYINITIAL>"string" {return new Symbol(sym.STRINGTYPE);}
+<YYINITIAL>"tuple" {return new Symbol(sym.TUPLETYPE);}
+
+>>>>>>> dd6f4b07c1895bf0db60b3f0a615f108a8343e28:old/q.flex
 <YYINITIAL>{boolconst} {return new Symbol(sym.BOOL,(new Boolean(yytext())).booleanValue());}
 <YYINITIAL>{integer} {return new Symbol(sym.INTEGER, (new Integer(yytext())).intValue());}
-<YYINITIAL>{float} {return new Symbol(sym.FLOAT, (new Integer(yytext())).intValue());}
+<YYINITIAL>{float} {return new Symbol(sym.FLOAT, (new Float(yytext())).floatValue());}
 <YYINITIAL>{char} {return new Symbol(sym.CHAR, (new Character(yytext().charAt(0))).charValue());}
-<YYINITIAL>{identifier} {return new Symbol(sym.ID, yytext());}
+<YYINITIAL>{identifier} {System.out.println("Obtain token: "+yytext()); return new Symbol(sym.ID, yytext());}
 <YYINITIAL>{whitespace} {}
 <YYINITIAL>"/*" {yybegin(COMMENT);}
 <COMMENT>"*/" {yybegin(YYINITIAL);}
@@ -93,10 +124,16 @@ boolconst = "true"|"false"
 <LINECOMMENT> {linecom} {yybegin(YYINITIAL); }
 <LINECOMMENT>. {}
 <YYINITIAL>. {System.out.println("error: unknown character " + yytext() + " found at line " + yyline);}
+<<<<<<< HEAD:q.flex
 <STRING> 
 { 
 \"                        { yybegin(YYINITIAL); return new Symbol(sym.STRING,new String(string)); } 
 ([^\"\n\t\r\']|{letter}|{digit})+       {string+=yytext(); }          
 }
+=======
+<STRING> { \"  { yybegin(YYINITIAL); return new Symbol(sym.STRING,new String(string)); } 
+       ([^\"\n\t\r]|{letter}|{digit})+       {string+=yytext(); }    }
+	   
+>>>>>>> dd6f4b07c1895bf0db60b3f0a615f108a8343e28:old/q.flex
 
 

@@ -1,0 +1,88 @@
+import java_cup.runtime.*;
+import java.util.*;
+import java.io.*;
+
+
+// operations
+terminal PLUS, TIMES, MINUS,DIVIDE, CONCAT, ASSIGN;
+//types
+terminal FLOAT, INTEGER,STRING,CHAR,BOOL, ID;
+//type definitions
+terminal FLOATTYPE, INTEGERTYPE, STRINGTYPE, CHARTYPE, LISTTYPE, TUPLETYPE, BOOLTYPE; 
+// punctutation
+terminal  DOT, COMMA, COLON, STROKE,LCBRACK, RCBRACK,LPAREN, RPAREN,SEMI,LBRACK,RBRACK;
+//keywords
+terminal LEN, VOID,FDEF, IF, ELSE, WHILE, REPEAT, RETURN, UNTIL, DO;
+//logica operations
+terminal OR, AND, NOT;
+//comparison
+terminal EQ, LESS, GREATER, LESSEQ, GREATEREQ, NEQ;
+//data type declaration
+terminal TDEF;  
+
+
+
+non terminal goal;
+
+precedence left PLUS;
+precedence left TIMES;
+
+
+
+start with goal;
+
+goal ::= var_declr
+	;
+	
+var_declr ::= var_single_declr
+	| var_declr_init
+	;
+var_single_declr ::= ID COLON type SEMI
+	;
+var_declr_init ::= init_with_value
+	| init_with_func
+	;
+init_with_value ::= ID COLON TUPLETYPE ASSIGN tuple SEMI		
+    | ID COLON INTEGERTYPE ASSIGN INTEGER SEMI
+	| ID COLON STRINGTYPE ASSIGN STRING SEMI
+    | ID COLON ID ASSIGN valuelist SEMI
+	| ID COLON CHARTYPE ASSIGN CHAR SEMI
+ 	| ID COLON LISTTYPE ASSIGN list SEMI
+	| ID COLON BOOLTYPE ASSIGN BOOL SEMI
+	| ID COLON FLOATTYPE ASSIGN FLOAT SEMI
+	; 
+init_with_func ::= ID COLON type ASSIGN func SEMI	
+valuelist ::= value
+	| valuelist value
+	;
+			
+value ::= BOOL
+	| INTEGER
+	| FLOAT
+	| CHAR
+	| STRING
+	| list
+	| tuple
+	;
+	
+	
+/* DUMMY GRAMMAR FOR TESTING */
+tuple ::= TUPLETYPE
+	;	
+list ::=  LISTTYPE
+	;	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
