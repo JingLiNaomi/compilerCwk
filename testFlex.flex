@@ -96,8 +96,8 @@ float = {integer}"."{digit}+
 
 <YYINITIAL>"(" {return new Yytoken("LPAREN");}
 <YYINITIAL>")" {return new Yytoken("RPAREN");}
-<YYINITIAL>"[" {return new Yytoken("RBRACK");}
-<YYINITIAL>"]" {return new Yytoken("LBRACK");}
+<YYINITIAL>"[" {return new Yytoken("LBRACK");}
+<YYINITIAL>"]" {return new Yytoken("RBRACK");}
 <YYINITIAL>"{" {return new Yytoken("LCBRACK");}
 <YYINITIAL>"}" {return new Yytoken("RCBRACK");}
 <YYINITIAL>"." {return new Yytoken("DOT");}

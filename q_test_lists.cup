@@ -1,0 +1,137 @@
+import java_cup.runtime.*;
+import java.util.*;
+import java.io.*;
+
+// operations
+terminal PLUS, TIMES, MINUS,DIVIDE, CONCAT, ASSIGN;
+//types
+terminal FLOAT, INTEGER,STRING,CHAR,BOOL, ID;
+//type definitions
+terminal FLOATTYPE, INTEGERTYPE, STRINGTYPE, CHARTYPE, LISTTYPE, TUPLETYPE, BOOLTYPE; 
+// punctutation
+terminal  DOT, COMMA, COLON, STROKE,LCBRACK, RCBRACK,LPAREN, RPAREN,SEMI,LBRACK,RBRACK;
+//keywords
+terminal LEN, VOID,FDEF, IF, ELSE, WHILE, REPEAT, RETURN, UNTIL, DO;
+//logica operations
+terminal OR, AND, NOT;
+//comparison
+terminal EQ, LESS, GREATER, LESSEQ, GREATEREQ, NEQ;
+//data type declaration
+terminal TDEF;  
+
+non-terminal name, simple_name, qualified_name, type, element;
+non terminal typedecl,typedeclist,elementlist;   //Data type declaration
+non-terminal list, emptyList, listOfListsOfStrings, listOfListsOfIntegers, listOfListsOfFloats, listOfListsOfChars,valuelist, listOfListsOfBools, value;
+non-terminal stringList, floatList, integerList, charList,boolList;
+non-terminal listOfChars, listOfIntegers, listOfFloats, listOfStrings, listOfBools, listOfAnyElements, anyElement;
+non-terminal tuple, tuple_op, comma_op, emptyTuple;
+non-terminal list_index, sequence_len, sequence_slicing;
+
+non terminal ar_operation, ar_expression, ar_operand, expression;
+non-terminal comparison_exp, comp_operand, comparison_op;
+
+non-terminal bool_exp, bool_operand, logic_operation, logic_expr;
+
+non-terminal concat_expr, concat_operand;
+
+non-terminal assignment, if_statement, else_statement, else_opt, while_statement, repeat_statement, return_statement;
+
+
+
+non-terminal func_def_retrn, func_def_noretrn, func_body, param_list, actual_param_list, func_call, body;
+non-terminal var_declr, statement, statement_list,vardeclist, var_single_declr, var_declr_init;
+
+
+precedence left PLUS;
+precedence left TIMES;
+
+start with statement_list;
+
+name	::=	simple_name {:System.out.println("name ::= simple_name");:}
+	|	qualified_name {:System.out.println("name ::= qualified_name");:} ;
+simple_name ::=	ID {:System.out.println("simple_name ::= ID");:};
+//compound name, i.e id.field
+qualified_name ::=
+		name DOT ID {:System.out.println("qualified_name ::= name DOT ID");:}
+		| list_index {:System.out.println("qualified_name ::= list_index");:};
+
+value ::= BOOL {: System.out.println("value ::= BOOL"); :}
+	  | INTEGER {: System.out.println("value ::= INTEGER"); :}
+	  | FLOAT {: System.out.println("value ::= FLOAT"); :}
+	  | CHAR {: System.out.println("value ::= CHAR"); :}
+	  | STRING {: System.out.println("value ::= STRING"); :}
+	  | list {: System.out.println("value ::= list"); :}
+	  | tuple {: System.out.println("value ::= tuple"); :};
+
+//any list
+list ::= emptyList {:System.out.println("list ::= emptyList");:}
+	| stringList {:System.out.println("list ::= stringList");:}
+	| integerList {:System.out.println("list ::= integerList");:}
+	| floatList {:System.out.println("list ::= floatList");:}
+	| charList {:System.out.println("list ::= charList");:}
+	| boolList {:System.out.println("list ::= boolList");:};
+//empty list, i.e []
+emptyList ::= LBRACK RBRACK {:System.out.println("emptyList ::= LBRACK RBRACK");:};
+//string list, i.e ["item1","item2"] or [["item1"],["item2"]] etc
+stringList ::= LBRACK listOfStrings RBRACK {:System.out.println("stringList ::= LBRACK listOfStrings RBRACK");:}
+	| LBRACK listOfListsOfStrings RBRACK {:System.out.println("stringList ::= LBRACK listOfListsOfStrings RBRACK");:}; 
+//list of lists of strings, i.e ["item1"],["item2"]
+listOfListsOfStrings ::= stringList {:System.out.println("listOfListsOfStrings ::= stringList");:}
+	| stringList COMMA listOfListsOfStrings {:System.out.println("listOfListsOfStrings ::= stringList COMMA listOfListsOfStrings");:};
+//list of strings, i.e "item1","item2"
+listOfStrings ::= STRING {:System.out.println("listOfStrings ::= STRING");:}
+	| STRING COMMA listOfStrings {:System.out.println("listOfStrings ::= STRING COMMA listOfStrings");:};
+//integer list, i.e [1,2,3] or [[1],[2],[3]] etc
+integerList ::= LBRACK listOfIntegers RBRACK {:System.out.println("integerList ::= LBRACK listOfIntegers RBRACK");:}
+	| LBRACK listOfListsOfIntegers RBRACK {:System.out.println("integerList ::= LBRACK listOfListsOfIntegers RBRACK");:}; 
+//list of list of integers, i.e [1,2,3],[1,2,3]
+listOfListsOfIntegers ::= integerList {:System.out.println("listOfListsOfIntegers ::= integerList");:}
+	| integerList COMMA listOfListsOfIntegers {:System.out.println("listOfListsOfIntegers ::= integerList COMMA listOfListsOfIntegers ");:};
+//list of integers, i.e 1,2,3
+listOfIntegers ::= INTEGER {:System.out.println("listOfIntegers ::= INTEGER");:}
+	| INTEGER COMMA listOfIntegers {:System.out.println("listOfIntegers ::= INTEGER COMMA listOfIntegers");:};
+//float list, i.e [1.2,3.4,1.5] or [[2.4],[2.2],[5.3]] etc
+floatList ::= LBRACK listOfFloats RBRACK {:System.out.println("floatList ::= LBRACK listOfFloats RBRACK");:}
+	| LBRACK listOfListsOfFloats RBRACK {:System.out.println("floatList ::= LBRACK listOfListsOfFloats RBRACK");:}; 
+//list of list of floats, i,e [1.2,3.4,1.5], [1.2,3.4,1.5]
+listOfListsOfFloats ::= floatList {:System.out.println("listOfListsOfFloats ::= floatList");:}
+	| floatList COMMA listOfListsOfFloats {:System.out.println("listOfListsOfFloats ::= floatList COMMA listOfListsOfFloats");:};
+// list of floats, i.e 2.6,4.2,6.2
+listOfFloats ::= FLOAT {:System.out.println("listOfFloats ::= FLOAT");:}
+	| FLOAT COMMA listOfFloats {:System.out.println("listOfFloats ::= FLOAT COMMA listOfFloats");:};
+//float list, i.e [1.2,3.4,1.5] or [[2.4],[2.2],[5.3]] etc
+boolList ::= LBRACK listOfBools RBRACK {:System.out.println("boolList ::= LBRACK listOfBoolss RBRACK");:}
+	| LBRACK listOfListsOfBools RBRACK {:System.out.println("boolList ::= LBRACK listOfListsOfBools RBRACK");:}; 
+//list of list of floats, i,e [1.2,3.4,1.5], [1.2,3.4,1.5]
+listOfListsOfBools ::= boolList {:System.out.println("listOfListsOfBools ::= boolList");:}
+	| boolList COMMA listOfListsOfBools {:System.out.println("listOfListsOfBools ::= boolList COMMA listOfListsOfBools");:};
+// list of floats, i.e 2.6,4.2,6.2
+listOfBools ::= BOOL {:System.out.println("listOfFloats ::= BOOL");:}
+	| BOOL COMMA listOfBools {:System.out.println("listOfBools ::= BOOL COMMA listOfBools");:};
+
+
+
+//char list, i.e ['1','4','5'] or [['s'],['e'],['d']] etc
+charList ::= LBRACK listOfChars RBRACK {:System.out.println("charList ::= LBRACK listOfChars RBRACK");:}
+	| LBRACK listOfListsOfChars RBRACK {:System.out.println("charList ::= LBRACK listOfListsOfChars RBRACK");:}; 
+//list of list of chars, i,e ['4','2','d'], ['e','5','s']
+listOfListsOfChars ::= charList {:System.out.println("listOfListsOfChars ::= charList");:}
+	| charList COMMA listOfListsOfChars {:System.out.println("listOfListsOfChars ::= charList COMMA listOfListsOfChars");:};
+// list of chars, i.e '2','3','j'
+listOfChars ::= CHAR {:System.out.println("listOfChars ::= CHAR");:}
+	| CHAR COMMA listOfChars {:System.out.println("listOfChars ::= CHAR COMMA listOfChars");:};
+
+assignment ::= name ASSIGN name SEMI {: System.out.println("assignment ::= name ASSIGN name SEMI"); :}
+	//| name ASSIGN expression SEMI {: System.out.println("assignment ::= name ASSIGN expression SEMI"); :}
+	| name ASSIGN value SEMI {: System.out.println("assignment ::= name ASSIGN anyElement SEMI"); :};
+//	| name ASSIGN tuple SEMI {: System.out.println("assignment ::= name ASSIGN tuple SEMI"); :};
+//statement 
+statement ::= assignment {: System.out.println("statement ::= assingment"); :};
+//	| func_call SEMI {: System.out.println("statement ::= func_call"); :}
+//	| if_statement {: System.out.println("statement ::= if_statement"); :}
+//	| while_statement {: System.out.println("statement ::= while_statement"); :}
+//	| repeat_statement {: System.out.println("statement ::= repeat_statement"); :}
+//	| return_statement {: System.out.println("statement ::= return_statement"); :};
+// statement list
+statement_list ::= statement {: System.out.println("statement_list ::= statement_list statement"); :}
+	| statement_list statement {: System.out.println("statement_list ::= statement"); :};

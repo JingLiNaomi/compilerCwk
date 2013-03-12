@@ -1,12 +1,8 @@
-a=b+c;
-i=u+p;
-x=t+r;
-b="sdf";
-t='d';
-a=[];
 r=["23","dfs","sdf"];
 r=[["sfd"],["ssdf"],["sdfs"]];
 r=[1,2,3,4];
-y=[||];
-o=r[4];
-t=["we","ere"]::["sdf"];
+y=[["sdf","SDF"],["SDF","sdfer","sewr"],["dfre","werew2"]];
+l=[[[1,2,3],[2,2,3]],[[3,5,6],[5,5,3]],[[3,5,6],[33,52,45]]];
+a='s';
+u=[true,false,false];
+
