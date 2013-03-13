@@ -65,7 +65,6 @@ float = {integer}"."{digit}+
 <YYINITIAL>"repeat" {return new Symbol(sym.REPEAT);}
 <YYINITIAL>"until" {return new Symbol(sym.UNTIL);}
 <YYINITIAL>"void" {return new Symbol(sym.VOID);}
-<<<<<<< HEAD:q.flex
 
 <YYINITIAL>"or" {return new Symbol(sym.OR);}
 <YYINITIAL>"and" {return new Symbol(sym.AND);}
@@ -89,7 +88,6 @@ float = {integer}"."{digit}+
 	"fdef" {return new Symbol(sym.FDEF);}
 }
 
-=======
 <YYINITIAL>"return" {return new Symbol(sym.RETURN);}
 <YYINITIAL>"len" {return new Symbol(sym.LEN);}
 <YYINITIAL>"fdef" {return new Symbol(sym.FDEF);}
@@ -107,7 +105,6 @@ float = {integer}"."{digit}+
 <YYINITIAL>"string" {return new Symbol(sym.STRINGTYPE);}
 <YYINITIAL>"tuple" {return new Symbol(sym.TUPLETYPE);}
 
->>>>>>> dd6f4b07c1895bf0db60b3f0a615f108a8343e28:old/q.flex
 <YYINITIAL>{boolconst} {return new Symbol(sym.BOOL,(new Boolean(yytext())).booleanValue());}
 <YYINITIAL>{integer} {return new Symbol(sym.INTEGER, (new Integer(yytext())).intValue());}
 <YYINITIAL>{float} {return new Symbol(sym.FLOAT, (new Float(yytext())).floatValue());}
@@ -121,16 +118,13 @@ float = {integer}"."{digit}+
 <LINECOMMENT> {linecom} {yybegin(YYINITIAL); }
 <LINECOMMENT>. {}
 <YYINITIAL>. {System.out.println("error: unknown character " + yytext() + " found at line " + yyline);}
-<<<<<<< HEAD:q.flex
 <STRING> 
 { 
 \"                        { yybegin(YYINITIAL); return new Symbol(sym.STRING,new String(string)); } 
 ([^\"\n\t\r\']|{letter}|{digit})+       {string+=yytext(); }          
 }
-=======
 <STRING> { \"  { yybegin(YYINITIAL); return new Symbol(sym.STRING,new String(string)); } 
        ([^\"\n\t\r]|{letter}|{digit})+       {string+=yytext(); }    }
 	   
->>>>>>> dd6f4b07c1895bf0db60b3f0a615f108a8343e28:old/q.flex
 
 

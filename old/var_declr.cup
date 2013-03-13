@@ -23,6 +23,9 @@ terminal TDEF;
 
 
 non terminal goal;
+non terminal var_declr,var_single_declr,var_declr_init,init_with_value,init_with_func;
+non terminal type,valuelist,;
+non terminal tuple,list;
 
 precedence left PLUS;
 precedence left TIMES;

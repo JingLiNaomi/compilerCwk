@@ -1,7 +1,1 @@
-<<<<<<< HEAD
-[]
-=======
-a=b+c;
-i=u+p;
-x=t+r;
->>>>>>> Merge commit
+tdef family : mother:person, father:person, children:list; // family definition
