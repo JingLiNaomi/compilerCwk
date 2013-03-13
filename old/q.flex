@@ -27,12 +27,9 @@ boolconst = "true"|"false"
 whitespace = [ \t\r\n\f]
 linecom = [\r\n]
 char = \'({letter}|{digit})\'
-<<<<<<< HEAD:q.flex
 float = {digit}+[\.]{digit}*
 boolconst = "true"|"false"
-=======
 float = {integer}"."{digit}+
->>>>>>> dd6f4b07c1895bf0db60b3f0a615f108a8343e28:old/q.flex
 %%
 
 <YYINITIAL>"+" {System.out.println("Obtain token: "+yytext()); return new Symbol(sym.PLUS);}

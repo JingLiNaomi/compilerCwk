@@ -84,7 +84,7 @@ whitespace = [ \t\r\n\f]
 linecom = [\r\n]
 char = \'({letter}|{digit})\'
 str = \"{char}*\"
-float = {integer}"."{digit}+
+float = {integer}("."{digit}+)?
 %%
 <YYINITIAL>\" {yybegin(STRING); string="";}
 <YYINITIAL>"+" {return new Yytoken("PLUS");}
