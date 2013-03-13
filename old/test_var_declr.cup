@@ -20,25 +20,40 @@ terminal EQ, LESS, GREATER, LESSEQ, GREATEREQ, NEQ;
 //data type declaration
 terminal TDEF;  
 
+
+
 non terminal goal;
-non terminal type_declr,element_list,element,type,cust_type_identifier;
+non terminal type,cust_type_identifier;
+
+non terminal var_declr,variable_declarator,variable_initializer,expression;
+
+
+
+
+precedence left PLUS;
+precedence left TIMES;
+
+
 
 start with goal;
 
-goal ::= type_declr {: System.out.println("goal match. Parsing successfully!"); :}
+goal ::= var_declr {:System.out.println("goal ::= var_declr ");:}
 	;
 	
-type_declr ::= TDEF cust_type_identifier COLON element_list SEMI {: System.out.println("typedecl ::= TDEF ID COLON element_list SEMI"); :}
+var_declr ::= 
+		ID COLON variable_declarator SEMI {:System.out.println("var_declr ::= ID COLON variable_declarator SEMI");:}
+	;
+	
+variable_declarator ::=
+		type {:System.out.println("variable_declarator ::= type ");:}
+	|	type ASSIGN variable_initializer {:System.out.println("goal ::= type EQ variable_initializer ");:}
+	;
+	
+	
+variable_initializer ::=
+		expression {:System.out.println("variable_initializer ::= expression ");:}
 	;	
 	
-element_list ::= element {: System.out.println("element_list ::= element"); :}
-	| element_list COMMA element {: System.out.println("element_list ::= element_list COMMA element"); :}
-	;
-	
-element ::= ID COLON type {: System.out.println("element ::= ID COLON type"); :}
-	;
-
-
 type ::= FLOATTYPE {:System.out.println("type ::= FLOATTYPE");:}
 	| INTEGERTYPE {:System.out.println("type ::= INTEGERTYPE");:}
 	| CHARTYPE {:System.out.println("type ::= CHARTYPE");:}
@@ -46,25 +61,43 @@ type ::= FLOATTYPE {:System.out.println("type ::= FLOATTYPE");:}
 	| STRINGTYPE {:System.out.println("type ::= STRINGTYPE");:}
 	| LISTTYPE {:System.out.println("type ::= LISTTYPE");:}
 	| TUPLETYPE {:System.out.println("type ::= TUPLETYPE");:}
-	| cust_type_identifier {:System.out.println("type ::= cust_type_identifier");:}
-	;
+	| cust_type_identifier
+	;	
 	
 cust_type_identifier ::= ID
+	;		
+	
+/*   DUMMY CODE FOR TEST   */
+expression ::= INTEGER {:System.out.println("expression ::= INTEGER ");:}
 	;	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
+	
+	
+	

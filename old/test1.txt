@@ -1,1 +1,1 @@
-tdef family : mother:person, father:person, children:list; // family definition
+    books:list=12;
