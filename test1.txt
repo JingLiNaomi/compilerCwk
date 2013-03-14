@@ -1,32 +1,38 @@
-lk=1.2;
-/* r=["23","dfs","sdf"];
-r=[["sfd"],["ssdf"],["sdfs"]]; sdfsf 
-r=[1,2,3,4];
-fl=[2.3,4.2,4.2];
-y=[["sdf","SDF"],["SDF","sdfer","sewr"],["dfre","werew2"]];
-l=[[[1,2,3],[2,2,3]],[[3,5,6],[5,5,3]],[[3,5,6],[33,52,45]]];
-a='s';
-a=[];
-s=['s','e','e'];
-p=[['e','q','o'],['e','q','0']];
-p=[false,true,true];
-o=[|1,2,[|[|"sdf"|],"sdf"|]|];
-p=[|true,'s',"sdf",[2.4,2.3,6.7],[|"sdf",[|2,4.2,'e'|]|],[["erer","sdf"],["dte"]]|];
-p=[3.4,5.3,5.3];
-a=f+h;
-b=b+r*c;
-b=dfg&&dsfl||io&&(x<3);
-a=a(sdf);
-sd=s[1];
-s=sum();
-b=func(a+3);
-a[g-4]=avg(i+2/3);
-id.d=34.4;
-add();
-min(sf-2,f(v));
-a[b4]=34;
-a = ["sdf","sdf"]::l2::[a,b];
-p=a[i]::[b];
-a=((sd+g)-p*o);
-b=3 in [[1],[2],[3]];*/
-m=b - sum(10, c) == 30;
+s1 : int = 1;
+s2 : float = sum(10.0,-20.0);
+s1:string = "";
+a:tuple = [||];
+fdef sum(i: int, j:int) : person {
+     return i + j;
+}
+
+fdef sum(i:float, j:float) : float {
+     return i + j;
+}
+
+l1: list = ["a","b", "c", "d", "e"];
+l2: list = [1,2,3,4,5];
+ 
+s1:string = "";
+s2:string = "hello";
+
+tdef person : name:string, surname:string, age:int; // person definition
+
+tdef family : mother:person, father:person, children:list; // family definition
+fdef invert(t:tuple):tuple {
+     t2:tuple=[||];
+     a:int;
+     if (len(t)>0) {
+        i:int = 0;
+	  repeat {
+	    t2 = t[i] + t2;
+	    i = i+1;  
+	  } until (i<len(t));
+      } else {}
+      return t2;
+}
+
+a:tuple = [|1,2,3,"aa","bb",""|];
+s1:string = "Alice in Wonderland";
+s2:string = "Gilgamesh";
+s3:string = "One Thousand and One Nights";
