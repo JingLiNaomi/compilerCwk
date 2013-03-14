@@ -11,7 +11,7 @@ terminal FLOATTYPE, INTEGERTYPE, STRINGTYPE, CHARTYPE, LISTTYPE, TUPLETYPE, BOOL
 // punctutation
 terminal  DOT, COMMA, COLON, STROKE,LCBRACK, RCBRACK,LPAREN, RPAREN,SEMI,LBRACK,RBRACK;
 //keywords
-terminal LEN, VOID,FDEF, IF, ELSE, WHILE, REPEAT, RETURN, UNTIL, DO;
+terminal LEN, VOID,FDEF, IF, ELSE, WHILE, REPEAT, RETURN, UNTIL, DO, IN;
 //logica operations
 terminal OR, AND, NOT;
 //comparison
@@ -21,13 +21,13 @@ terminal TDEF;
 
 non-terminal name, simple_name, qualified_name, type, element;
 non terminal typedecl,typedeclist,elementlist;   //Data type declaration
-non-terminal list, emptyList, listOfListsOfStrings, listOfListsOfIntegers, listOfListsOfFloats, listOfListsOfChars,valuelist, listOfListsOfBools, value;
-non-terminal stringList, floatList, integerList, charList,boolList;
-non-terminal listOfChars, listOfIntegers, listOfFloats, listOfStrings, listOfBools, listOfAnyElements, anyElement;
+non-terminal list, emptyList, listOfListsOfStrings, listOfListsOfIntegers, listOfListsOfFloats, listOfListsOfChars,valuelist, listOfListsOfBools, listOfListsOfVars, value;
+non-terminal stringList, floatList, integerList, charList,boolList,varList;
+non-terminal listOfChars, listOfIntegers, listOfFloats, listOfStrings, listOfBools, listOfAnyElements, listOfVars, anyElement;
 non-terminal tuple, tuple_op, comma_op, emptyTuple;
-non-terminal list_index, sequence_len, sequence_slicing;
+non-terminal list_index, sequence_len, sequence_slicing, in_expression;
 
-non terminal ar_operation, ar_expression, ar_operand, expression;
+non terminal ar_operation, ar_expression, ar_operand, expression,primary,primary_no_new_array,multiplicative_expression,additive_expression;
 non-terminal comparison_exp, comp_operand, comparison_op;
 
 non-terminal bool_exp, bool_operand, logic_operation, logic_expr;
@@ -38,8 +38,12 @@ non-terminal assignment, if_statement, else_statement, else_opt, while_statement
 
 
 
-non-terminal func_def_retrn, func_def_noretrn, func_body, param_list, actual_param_list, func_call, body;
-non-terminal var_declr, statement, statement_list,vardeclist, var_single_declr, var_declr_init;
+non-terminal func_def_retrn, func_def_noretrn, func_body, param_list, actual_param_list, func_call, body,method_invocation;
+non-terminal var_declr, statement, statement_list,vardeclist, var_single_declr, var_declr_init,argument_list,argument_list_opt;
+
+non-terminal unary_expression, unary_expression_not_plus_minus,postfix_expression,shift_expression, relational_expression,equality_expression;
+non-terminal conditional_expression, conditional_and_expression, conditional_or_expression, inclusive_or_expression, assignment_expression, left_hand_side, and_expression;
+
 
 
 precedence left PLUS;
@@ -70,7 +74,8 @@ list ::= emptyList {:System.out.println("list ::= emptyList");:}
 	| integerList {:System.out.println("list ::= integerList");:}
 	| floatList {:System.out.println("list ::= floatList");:}
 	| charList {:System.out.println("list ::= charList");:}
-	| boolList {:System.out.println("list ::= boolList");:};
+	| boolList {:System.out.println("list ::= boolList");:}
+	| varList {:System.out.println("list ::= varList");:};
 //empty list, i.e []
 emptyList ::= LBRACK RBRACK {:System.out.println("emptyList ::= LBRACK RBRACK");:};
 //string list, i.e ["item1","item2"] or [["item1"],["item2"]] etc
@@ -109,6 +114,15 @@ listOfListsOfBools ::= boolList {:System.out.println("listOfListsOfBools ::= boo
 // list of floats, i.e 2.6,4.2,6.2
 listOfBools ::= BOOL {:System.out.println("listOfFloats ::= BOOL");:}
 	| BOOL COMMA listOfBools {:System.out.println("listOfBools ::= BOOL COMMA listOfBools");:};
+// list of variables
+varList ::= LBRACK listOfVars RBRACK {:System.out.println("boolList ::= LBRACK listOfBoolss RBRACK");:}
+	| LBRACK listOfListsOfVars RBRACK {:System.out.println("boolList ::= LBRACK listOfListsOfBools RBRACK");:}; 
+//list of list of floats, i,e [1.2,3.4,1.5], [1.2,3.4,1.5]
+listOfListsOfVars ::= varList {:System.out.println("listOfListsOfVars ::= varList");:}
+	| varList COMMA listOfListsOfVars {:System.out.println("listOfListsOfVars ::= varList COMMA listOfListsOfVars");:};
+// list of floats, i.e 2.6,4.2,6.2
+listOfVars ::= name {:System.out.println("listOfVars ::= name");:}
+	| name COMMA listOfVars {:System.out.println("listOfVars ::= name COMMA listOfVars");:};
 
 
 
@@ -122,10 +136,10 @@ listOfListsOfChars ::= charList {:System.out.println("listOfListsOfChars ::= cha
 listOfChars ::= CHAR {:System.out.println("listOfChars ::= CHAR");:}
 	| CHAR COMMA listOfChars {:System.out.println("listOfChars ::= CHAR COMMA listOfChars");:};
 
-assignment ::= name ASSIGN name SEMI {: System.out.println("assignment ::= name ASSIGN name SEMI"); :}
+/*assignment ::= name ASSIGN name SEMI {: System.out.println("assignment ::= name ASSIGN name SEMI"); :}
 	//| name ASSIGN expression SEMI {: System.out.println("assignment ::= name ASSIGN expression SEMI"); :}
 	| name ASSIGN value SEMI {: System.out.println("assignment ::= name ASSIGN anyElement SEMI"); :};
-//	| name ASSIGN tuple SEMI {: System.out.println("assignment ::= name ASSIGN tuple SEMI"); :};
+//	| name ASSIGN tuple SEMI {: System.out.println("assignment ::= name ASSIGN tuple SEMI"); :};*/
 
 //empty tuple
 emptyTuple ::= LBRACK STROKE STROKE RBRACK {:System.out.println("emptyTuple ::= LBRACK STROKE STROKE RBRACK ");:};
@@ -141,9 +155,120 @@ tuple_op ::= {:System.out.println("tuple_op ::= emptyString");:}
 	| tuple {:System.out.println("tuple_op ::= tuple");:};
 //function call
 //func_call ::= ID LPAREN actual_param_list RPAREN {: System.out.println("func_call ::= ID LPAREN actual_param_list RPAREN"); :};
+
+
+
+// 19.12) Expressions
+primary ::=	primary_no_new_array {: System.out.println("primary ::= primary_no_new_array"); :}
+	;
+primary_no_new_array ::=
+		value {: System.out.println("primary_no_new_array ::= value"); :}
+	|	LPAREN expression RPAREN
+	|	method_invocation
+//	|	list_index
+	;
+
+
+argument_list_opt ::=
+	|	argument_list
+	;
+argument_list ::=
+		expression
+	|	argument_list COMMA expression
+	;
+
+dim_expr ::=	LBRACK expression RBRACK
+	;
+method_invocation ::=
+		name LPAREN argument_list_opt RPAREN
+	;
+list_index ::=
+		name LBRACK additive_expression RBRACK
+	;
+postfix_expression ::= 
+		primary {: System.out.println("postfix_expression ::= primary"); :}
+	|	name {: System.out.println("postfix_expression ::= name"); :}
+	;
+
+unary_expression ::=
+		unary_expression_not_plus_minus {: System.out.println("unary_expression ::= unary_expression_not_plus_minus"); :}
+	;
+
+unary_expression_not_plus_minus ::=
+		postfix_expression {: System.out.println("unary_expression_not_plus_minus::= postfix_expression"); :}
+	|	NOT unary_expression 
+	;
+
+multiplicative_expression ::=
+		unary_expression {: System.out.println("multiplicative_expression ::= unary_expression"); :}
+	|	multiplicative_expression TIMES unary_expression
+	|	multiplicative_expression DIVIDE unary_expression
+	;
+additive_expression ::=
+		multiplicative_expression {: System.out.println("additive_expression ::= multiplicative_expression"); :}
+	|	additive_expression PLUS multiplicative_expression {: System.out.println("additive_expression ::= additive_expression PLUS multiplicative_expression"); :}
+	|	additive_expression MINUS multiplicative_expression
+	;
+shift_expression ::=
+		additive_expression {: System.out.println("shift_expression ::= additive_expression"); :}
+	;
+relational_expression ::=
+		shift_expression {: System.out.println("relational_expression ::= shift_expression"); :}
+	|	relational_expression LESS shift_expression
+	|	relational_expression GREATER shift_expression
+	|	relational_expression LESSEQ shift_expression
+	|	relational_expression GREATEREQ shift_expression
+	;
+equality_expression ::=
+		relational_expression {: System.out.println("equality_expression ::= relational_expression"); :}
+	|	equality_expression EQ relational_expression
+	|	equality_expression NEQ relational_expression
+	;
+and_expression ::= 
+		equality_expression {: System.out.println("and_expression ::= equality_expression"); :}
+	|	and_expression AND equality_expression
+	;
+
+conditional_or_expression ::=
+		and_expression {: System.out.println("conditional_or_expression ::= and_expression"); :}
+	|	conditional_or_expression OR and_expression
+	;
+conditional_expression ::= 
+		conditional_or_expression {: System.out.println("conditional_expression ::= conditional_or_expression"); :}
+	;
+assignment_expression ::= 
+		conditional_expression {: System.out.println("assignment_expression ::= conditional_expression"); :}
+		| concat_expr
+		| in_expression
+	;
+assignment ::=	left_hand_side ASSIGN assignment_expression {: System.out.println("assignment ::= left_hand_side ASSIGN assignment_expression"); :}
+	;
+left_hand_side ::= 
+		name {: System.out.println("left_hand_side ::= name"); :}
+	;
+concat_expr ::= name CONCAT name
+	| name CONCAT list
+	| list CONCAT name
+	| list CONCAT list
+	| list CONCAT concat_expr
+	| name CONCAT concat_expr;
+//sequence length, i.e len(sq)
+sequence_len ::= LEN LPAREN name RPAREN {:System.out.println("sequence_len ::= LEN LPAREN name RPAREN");:};
+//sequence slicing, i.e sq[1:2] or sq[j:i]
+sequence_slicing ::= name LBRACK additive_expression COLON additive_expression RBRACK {:System.out.println("sequence_slicing ::= name LBRACK ar_expression COLON ar_expression RBRACK");:}
+	| name LBRACK COLON additive_expression RBRACK {:System.out.println("sequence_slicing ::= name LBRACK COLON ar_expression RBRACK");:}
+	| name LBRACK additive_expression COLON RBRACK {:System.out.println("sequence_slicing ::= name LBRACK ar_expression COLON RBRACK");:};
+//in operator
+in_expression ::= value IN list
+	| value IN name;
+expression_opt ::=
+	|	expression
+	;
+expression ::=	assignment_expression {: System.out.println("expression ::= assignment_expression"); :}
+	;
 //statement 
-statement ::= assignment {: System.out.println("statement ::= assingment"); :};
-//	| func_call SEMI {: System.out.println("statement ::= func_call"); :}
+statement ::= assignment SEMI {: System.out.println("statement ::= assingment"); :}
+	| method_invocation SEMI {: System.out.println("statement ::= func_call"); :};
 //	| if_statement {: System.out.println("statement ::= if_statement"); :}
 //	| while_statement {: System.out.println("statement ::= while_statement"); :}
 //	| repeat_statement {: System.out.println("statement ::= repeat_statement"); :}

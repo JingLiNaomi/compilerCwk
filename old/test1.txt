@@ -1,1 +1,6 @@
+<<<<<<< HEAD
     books:list=12;
+=======
+a=j+1;
+
+>>>>>>> Merge commit. Finished with lists

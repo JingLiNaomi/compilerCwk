@@ -1,6 +1,6 @@
 lk=1.2;
 /* r=["23","dfs","sdf"];
-r=[["sfd"],["ssdf"],["sdfs"]]; sdfsf */
+r=[["sfd"],["ssdf"],["sdfs"]]; sdfsf 
 r=[1,2,3,4];
 fl=[2.3,4.2,4.2];
 y=[["sdf","SDF"],["SDF","sdfer","sewr"],["dfre","werew2"]];
@@ -13,3 +13,20 @@ p=[false,true,true];
 o=[|1,2,[|[|"sdf"|],"sdf"|]|];
 p=[|true,'s',"sdf",[2.4,2.3,6.7],[|"sdf",[|2,4.2,'e'|]|],[["erer","sdf"],["dte"]]|];
 p=[3.4,5.3,5.3];
+a=f+h;
+b=b+r*c;
+b=dfg&&dsfl||io&&(x<3);
+a=a(sdf);
+sd=s[1];
+s=sum();
+b=func(a+3);
+a[g-4]=avg(i+2/3);
+id.d=34.4;
+add();
+min(sf-2,f(v));
+a[b4]=34;
+a = ["sdf","sdf"]::l2::[a,b];
+p=a[i]::[b];
+a=((sd+g)-p*o);
+b=3 in [[1],[2],[3]];*/
+m=b - sum(10, c) == 30;

@@ -59,9 +59,9 @@ boolconst = "true"|"false"
 <YYINITIAL>"until" {return new Symbol(sym.UNTIL);}
 <YYINITIAL>"void" {return new Symbol(sym.VOID);}
 
-<YYINITIAL>"or" {return new Symbol(sym.OR);}
-<YYINITIAL>"and" {return new Symbol(sym.AND);}
-<YYINITIAL>"not" {return new Symbol(sym.NOT);}
+<YYINITIAL>"||" {return new Symbol(sym.OR);}
+<YYINITIAL>"&&" {return new Symbol(sym.AND);}
+<YYINITIAL>"!" {return new Symbol(sym.NOT);}
 
 <YYINITIAL>
 {
@@ -77,6 +77,7 @@ boolconst = "true"|"false"
 <YYINITIAL>
 {
 	"len" {return new Symbol(sym.LEN);}
+	"in" {return new Symbol(sym.IN);}
 	"tdef" {return new Symbol(sym.TDEF);}
 	"fdef" {return new Symbol(sym.FDEF);}
 }
@@ -87,9 +88,6 @@ boolconst = "true"|"false"
 <YYINITIAL>{char} {return new Symbol(sym.CHAR, (new Character(yytext().charAt(0))).charValue());}
 <YYINITIAL>{identifier} {return new Symbol(sym.ID, yytext());}
 <YYINITIAL>{whitespace} {}
-
-<COMMENT>"*/" {yybegin(YYINITIAL);}
-<COMMENT>. {}
 <YYINITIAL> "//" {yybegin(LINECOMMENT);}
 <LINECOMMENT> {linecom} {yybegin(YYINITIAL); }
 <LINECOMMENT>. {}
