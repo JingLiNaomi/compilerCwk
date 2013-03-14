@@ -58,6 +58,7 @@ class Yytoken {
   String getName() {
     return name;
   }
+  
 }
 %%
 
@@ -69,7 +70,7 @@ class Yytoken {
 %state COMMENT
 %state LINECOMMENT
 %state STRING
-
+%state CHARLITERAL
 
 %{
 	private String string;
@@ -81,9 +82,9 @@ letter = [a-zA-Z]
 identifier = {letter}({letter}|{digit})*
 boolconst = "true"|"false"
 whitespace = [ \t\r\n\f]
-linecom = [\r\n]
-char = \'({letter}|{digit})\'
-str = \"{char}*\"
+line_terminator = \r|\n|\r\n
+string_character = [^\r\n\"\\]
+single_character = [^\r\n\'\\]
 float = {integer}("."{digit}+)?
 %%
 <YYINITIAL>\" {yybegin(STRING); string="";}
@@ -132,7 +133,6 @@ float = {integer}("."{digit}+)?
 <YYINITIAL>"bool" {return new Yytoken("BOOLTYPE");}
 <YYINITIAL>"int" {return new Yytoken("INTEGERTYPE");}
 <YYINITIAL>"float" {return new Yytoken("FLOATTYPE");}
-<YYINITIAL>"char" {return new Yytoken("CHARTYPE");}
 <YYINITIAL>"list" {return new Yytoken("LISTTYPE");}
 <YYINITIAL>"string" {return new Yytoken("STRINGTYPE");}
 <YYINITIAL>"tuple" {return new Yytoken("TUPLETYPE");}
@@ -141,20 +141,28 @@ float = {integer}("."{digit}+)?
 <YYINITIAL>{boolconst} {return new Yytoken("BOOL",(new Boolean(yytext())).booleanValue());}
 <YYINITIAL>{integer} {return new Yytoken("INTEGER", (new Integer(yytext())).intValue());}
 <YYINITIAL>{float} {return new Yytoken("FLOAT", (new Float(yytext())).floatValue());}
-<YYINITIAL>{char} {return new Yytoken("CHAR", (new Character(yytext().charAt(1))).charValue());}
 <YYINITIAL>{identifier} {return new Yytoken("ID", yytext());}
 <YYINITIAL>{whitespace} {}
 <YYINITIAL>"/*" {yybegin(COMMENT);}
 <COMMENT>"*/" {yybegin(YYINITIAL);}
 <COMMENT>. {}
 <YYINITIAL> "//" {yybegin(LINECOMMENT);}
-<LINECOMMENT> {linecom} {yybegin(YYINITIAL); }
+<LINECOMMENT> {line_terminator} {yybegin(YYINITIAL); }
 <LINECOMMENT>. {}
+<YYINITIAL>\' { yybegin(CHARLITERAL); }
 <YYINITIAL>. {System.out.println("error: unknown character " + yytext() + " found at line " + yyline);}
+
+<CHARLITERAL>
+{
+	{single_character}\'  { yybegin(YYINITIAL); return new Yytoken("CHAR", (new Character(yytext().charAt(0))).charValue()); }
+    {line_terminator}     { System.out.println("Unterminated character literal at end of line, found at line " + yyline); }
+	.                     { System.out.println("Illegal char, found at line " + yyline); }
+}
 <STRING> 
 { 
 \"                        { yybegin(YYINITIAL); return new Yytoken("STRING",new String(string)); } 
-([^\"\n\t\r\']|{letter}|{digit})+       {string+=yytext(); }          
+ {string_character}+             { string+=yytext(); }   
+{line_terminator}               { System.out.println("Unterminated string at end of line, found at line " + yyline); } 
 }
 	   
 
