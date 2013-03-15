@@ -2,6 +2,10 @@ import java_cup.runtime.*;
 import java.util.*;
 import java.io.*;
 
+
+parser code {:
+static boolean parser_successful=true;
+:};
 // operations
 terminal PLUS, TIMES, MINUS,DIVIDE, CONCAT, ASSIGN;
 //types
@@ -310,7 +314,8 @@ sequence_len ::= LEN LPAREN name RPAREN {:System.out.println("sequence_len ::= L
 //sequence slicing, i.e sq[1:2] or sq[j:i]
 sequence_slicing ::= name LBRACK additive_expression COLON additive_expression RBRACK {:System.out.println("sequence_slicing ::= name LBRACK ar_expression COLON ar_expression RBRACK");:}
 	| name LBRACK COLON additive_expression RBRACK {:System.out.println("sequence_slicing ::= name LBRACK COLON ar_expression RBRACK");:}
-	| name LBRACK additive_expression COLON RBRACK {:System.out.println("sequence_slicing ::= name LBRACK ar_expression COLON RBRACK");:};
+	| name LBRACK additive_expression COLON RBRACK {:System.out.println("sequence_slicing ::= name LBRACK ar_expression COLON RBRACK");:}
+;
 //in operator
 in_expression ::= value IN list
 	| value IN name
@@ -335,7 +340,8 @@ statement ::= assignment SEMI {: System.out.println("statement ::= assingment");
 	| method_invocation SEMI {: System.out.println("statement ::= func_call"); :}
 	| if_statement {: System.out.println("statement ::= if_statement"); :}
 	| while_statement {: System.out.println("statement ::= while_statement"); :}
-	| repeat_statement SEMI{: System.out.println("statement ::= repeat_statement"); :};
+	| repeat_statement SEMI{: System.out.println("statement ::= repeat_statement"); :}
+	| error {:System.out.println("There is an error somewhere!"); parser.parser_successful=false;:};
 // statement list
 statement_list ::= statement {: System.out.println("statement_list ::= statement_list statement"); :}
 	| statement_list statement {: System.out.println("statement_list ::= statement"); :};
