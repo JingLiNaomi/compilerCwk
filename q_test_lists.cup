@@ -19,32 +19,29 @@ terminal EQ, LESS, GREATER, LESSEQ, GREATEREQ, NEQ;
 //data type declaration
 terminal TDEF;  
 
-non-terminal name, simple_name, qualified_name, type, element;
-non terminal type_declr,element_list, type_declr_list, type_declr_list_op;   //Data type declaration
-non-terminal list, emptyList, listOfListsOfStrings, listOfListsOfIntegers, listOfListsOfFloats, listOfListsOfChars,valuelist, listOfListsOfBools, listOfListsOfVars, value;
-non-terminal stringList, floatList, integerList, charList,boolList,varList;
-non-terminal listOfChars, listOfIntegers, listOfFloats, listOfStrings, listOfBools, listOfAnyElements, listOfVars, anyElement;
-non-terminal tuple, tuple_op, comma_op, emptyTuple;
-non-terminal list_index, sequence_len, sequence_slicing, in_expression;
+non terminal name, simple_name, qualified_name, type, element;
+non terminal type_declr,element_list;   //Data type declaration
+non terminal list, emptyList, listOfListsOfStrings, listOfListsOfIntegers, listOfListsOfFloats, listOfListsOfChars,valuelist, listOfListsOfBools, listOfListsOfVars, value;
+non terminal stringList, floatList, integerList, charList,boolList,varList;
+non terminal listOfChars, listOfIntegers, listOfFloats, listOfStrings, listOfBools, listOfVars;
+non terminal tuple, emptyTuple;
+non terminal list_index, sequence_len, sequence_slicing, in_expression;
 
-non terminal ar_operation, ar_expression, ar_operand, expression,primary,primary_no_new_array,multiplicative_expression,additive_expression;
-non-terminal comparison_exp, comp_operand, comparison_op;
+non terminal expression,primary,primary_no_new_array,multiplicative_expression,additive_expression;
 
-non-terminal bool_exp, bool_operand, logic_operation, logic_expr;
+non terminal concat_expr;
 
-non-terminal concat_expr, concat_operand;
-
-non-terminal assignment, if_statement, else_statement, else_opt, while_statement, repeat_statement, return_statement;
+non terminal assignment, if_statement, else_statement, else_opt, while_statement, repeat_statement, return_statement;
 
 
 
-non-terminal func_def_retrn, func_def_noretrn, param_list, actual_param_list, func_call, body, body_op, method_invocation;
-non-terminal var_declr, statement, statement_list,var_declr_list,var_declr_list_op, variable_declarator, variable_initializer,argument_list,argument_list_opt;
+nonterminal func_def_retrn, func_def_noretrn, param_list, body, body_op, method_invocation;
+non terminal var_declr, statement, statement_list, variable_declarator, variable_initializer,argument_list,argument_list_opt;
 
-non-terminal unary_expression, unary_expression_not_plus_minus,postfix_expression,shift_expression, relational_expression,equality_expression;
-non-terminal conditional_expression, conditional_and_expression, conditional_or_expression, inclusive_or_expression, assignment_expression, left_hand_side, and_expression;
+non terminal unary_expression, unary_expression_not_plus_minus,postfix_expression,shift_expression, relational_expression,equality_expression;
+non terminal conditional_expression, conditional_or_expression, assignment_expression, left_hand_side, and_expression;
 
-non-terminal declaration, declarations_list, declarations_list_op, program;
+non terminal declaration, declarations_list, program;
 
 
 precedence left PLUS;
@@ -137,25 +134,12 @@ listOfListsOfChars ::= charList {:System.out.println("listOfListsOfChars ::= cha
 listOfChars ::= CHAR {:System.out.println("listOfChars ::= CHAR");:}
 	| CHAR COMMA listOfChars {:System.out.println("listOfChars ::= CHAR COMMA listOfChars");:};
 
-/*assignment ::= name ASSIGN name SEMI {: System.out.println("assignment ::= name ASSIGN name SEMI"); :}
-	//| name ASSIGN expression SEMI {: System.out.println("assignment ::= name ASSIGN expression SEMI"); :}
-	| name ASSIGN value SEMI {: System.out.println("assignment ::= name ASSIGN anyElement SEMI"); :};
-//	| name ASSIGN tuple SEMI {: System.out.println("assignment ::= name ASSIGN tuple SEMI"); :};*/
-
 //empty tuple
 emptyTuple ::= LBRACK OR RBRACK {:System.out.println("emptyTuple ::= LBRACK STROKE STROKE RBRACK ");:};
 //tupple
 tuple ::= emptyTuple  {:System.out.println("tuple ::= emptyTuple");:}
 	| LBRACK STROKE valuelist STROKE RBRACK {:System.out.println("tuple ::= LBRACK STROKE valuelist STROKE RBRACK");:};
 	//| LBRACK STROKE tuple COMMA tuple STROKE RBRACK {:System.out.println("tuple ::= LBRACK STROKE listOfAnyElements STROKE RBRACK");:};
-// comma optional
-comma_op ::=  {:System.out.println("comma_op ::= emptyString");:}
-	| COMMA {:System.out.println("comma_op ::= COMMA");:};
-//tuple optional
-tuple_op ::= {:System.out.println("tuple_op ::= emptyString");:}
-	| tuple {:System.out.println("tuple_op ::= tuple");:};
-//function call
-//func_call ::= ID LPAREN actual_param_list RPAREN {: System.out.println("func_call ::= ID LPAREN actual_param_list RPAREN"); :};
 
 
 declaration ::= 
@@ -235,9 +219,6 @@ argument_list_opt ::=
 argument_list ::=
 		expression
 	|	argument_list COMMA expression
-	;
-
-dim_expr ::=	LBRACK expression RBRACK
 	;
 
 // functions defenition that returns
@@ -352,9 +333,7 @@ sequence_slicing ::= name LBRACK additive_expression COLON additive_expression R
 in_expression ::= value IN list
 	| value IN name
 	| name IN name;
-expression_opt ::=
-	|	expression
-	;
+
 expression ::=	assignment_expression {: System.out.println("expression ::= assignment_expression"); :}
 	;
 
