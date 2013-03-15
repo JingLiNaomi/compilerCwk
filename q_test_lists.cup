@@ -152,14 +152,6 @@ declarations_list ::= declarations_list declaration
 	| declaration;
 
 
-/*declarations_list ::=  declaration declaration
-	;*/
-//variable declarations
-//custom type declaration list
-
-/*type_declr_list ::= type_declr
-	| type_declr_list type_declr;
-*/
 type_declr ::= TDEF ID COLON element_list SEMI {: System.out.println("typedecl ::= TDEF ID COLON element_list SEMI"); :}
 	;	
 	
@@ -171,12 +163,7 @@ element ::= ID COLON type {: System.out.println("element ::= ID COLON type"); :}
 	| ID COLON ID
 	;
 
-//variables declaration/initialization
 
-/*
-var_declr_list ::= var_declr_list var_declr
-	| var_declr;
-*/
 var_declr ::= 
 		 variable_declarator SEMI {:System.out.println("var_declr ::= ID COLON variable_declarator SEMI");:}
 	;
@@ -209,7 +196,6 @@ primary_no_new_array ::=
 	|	LPAREN expression RPAREN
 	|   sequence_len
 	|	method_invocation
-//	|	list_index
 	;
 
 
@@ -230,10 +216,7 @@ func_def_noretrn ::= FDEF ID LPAREN param_list RPAREN COLON VOID LCBRACK body_op
 body ::= declarations_list statement_list {: System.out.println("body ::= var_declr statement_list"); :}
 	| statement_list
 	| declarations_list;
-/*	| var_declr_list statement_list {: System.out.println("body ::= var_declr statement_list"); :}
-	| type_declr_list statement_list {: System.out.println("body ::= var_declr statement_list"); :}
-	| statement_list {: System.out.println("body ::= var_declr statement_list"); :};
-*/
+	
 body_op ::= 
 	| body;
 //parameters list when defining a function
