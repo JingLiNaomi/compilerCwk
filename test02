@@ -10,6 +10,8 @@ s2:string = "hello";
   anotherlist : list = [s1] + [s2] + newlist;
   thirdlist : list = l2[:-2] :: l2[3:];
 
+  b:bool = len(thirdlist) == len(l2);
+
 
   if (len(newlist) <= len(anotherlist)) {
      newlist = newlist + anotherlist[0];
@@ -17,5 +19,5 @@ s2:string = "hello";
      newlist = newlist - newlist[0];
   }
 
-  b:bool = len(thirdlist) == len(l2);
+  
 }
