@@ -8,7 +8,7 @@ To Run: > java Main test.txt
                 where test.txt is an test input file for the calculator. 
 */
 import java.io.*;
-
+import java.lang.Exception;
 
 public class Main {
   
@@ -21,15 +21,21 @@ public class Main {
       parser p = new parser(scanner); 
       Object result = p.parse(); 
       if(parser.parser_successful)
+      {
     //  p.debug_parse();
     //  if(result!=null)
+
         System.out.println("Parsing is successful");
+      }
       else
+      {
         System.out.println("Parsing is unsuccessful");
+
+      }
       //System.out.println(result.toString());
     //  System.out.println("Test1");
     } catch (Exception e) { 
-      System.out.println("Error");
+      
     //  System.out.println(e.getMessage().toString());
       // do cleanup here -- possibly rethrow e */ 
       //} finally { 

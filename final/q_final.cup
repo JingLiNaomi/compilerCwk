@@ -5,6 +5,7 @@ import java.io.*;
 
 parser code {:
 static boolean parser_successful=true;
+static int section=0;
 :};
 // operations
 terminal PLUS, TIMES, MINUS,DIVIDE, CONCAT, ASSIGN;
@@ -45,7 +46,7 @@ non terminal var_declr, statement, statement_list, variable_declarator, variable
 non terminal unary_expression, unary_expression_not_plus_minus,postfix_expression,shift_expression, relational_expression,equality_expression;
 non terminal conditional_expression, conditional_or_expression, assignment_expression, left_hand_side, and_expression;
 
-non terminal declaration, declarations_list, program;
+non terminal declaration, declarations_list, program, main,local_var_declaration_list;
 
 
 precedence left PLUS;
@@ -152,8 +153,8 @@ declaration ::=
 	| func_def_retrn
 	| func_def_noretrn;
 
-declarations_list ::= declarations_list declaration
-	| declaration;
+declarations_list ::= declarations_list declaration {:parser.section=0;System.out.println("parser.section=0");:}
+	| declaration {:parser.section=0;System.out.println("parser.section=0");:};
 
 
 type_declr ::= TDEF ID COLON element_list SEMI {: System.out.println("typedecl ::= TDEF ID COLON element_list SEMI"); :}
@@ -216,12 +217,16 @@ func_def_retrn ::= FDEF ID LPAREN param_list RPAREN COLON type LCBRACK body_op r
 //function defenition that doesnt return 
 func_def_noretrn ::= FDEF ID LPAREN param_list RPAREN COLON VOID LCBRACK body_op RCBRACK {: System.out.println("func_def_noreturn ::= FDEF ID LPAREN..."); :};
 //the body of a statement or function
-body ::= declarations_list statement_list {: System.out.println("body ::= var_declr statement_list"); :}
+body ::= local_var_declaration_list statement_list {: System.out.println("body ::= var_declr statement_list"); :}
 	| statement_list
-	| declarations_list;
+	| local_var_declaration_list;
 
 body_op ::= 
 	| body;
+
+local_var_declaration_list ::= local_var_declaration_list var_declr
+	| var_declr;
+
 //parameters list when defining a function
 param_list ::= {: System.out.println("param_list ::= "); :}
 	| element_list  {: System.out.println("param_list ::= element_list"); :};	
@@ -346,5 +351,6 @@ statement ::= assignment SEMI {: System.out.println("statement ::= assingment");
 statement_list ::= statement {: System.out.println("statement_list ::= statement_list statement"); :}
 	| statement_list statement {: System.out.println("statement_list ::= statement"); :};
 
-program ::= declarations_list LCBRACK body RCBRACK
-	| LCBRACK body RCBRACK;
+main ::= LCBRACK body RCBRACK {:parser.section=1;System.out.println("parser.section=1");:} ;
+program ::= declarations_list main
+	| main;

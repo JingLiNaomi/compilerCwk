@@ -21,6 +21,7 @@ class Yylex implements java_cup.runtime.Scanner {
   /** lexical states */
   public static final int STRING = 6;
   public static final int YYINITIAL = 0;
+  public static final int MAIN = 8;
   public static final int COMMENT = 2;
   public static final int LINECOMMENT = 4;
 
@@ -31,7 +32,7 @@ class Yylex implements java_cup.runtime.Scanner {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = { 
-     0,  0,  1,  1,  2,  2,  3, 3
+     0,  0,  1,  1,  2,  2,  3,  3,  1, 1
   };
 
   /** 
@@ -350,6 +351,7 @@ class Yylex implements java_cup.runtime.Scanner {
 
   /* user code: */
 private String string;
+private String section="declaration list";
 
 
   /**
@@ -760,76 +762,77 @@ private String string;
           { return new Symbol(sym.LISTTYPE);
           }
         case 70: break;
+        case 1: 
+          { System.out.println("error: unknown character " + yytext() + " found at line " + yyline);  
+        System.out.println("Error is in "+section);
+          }
+        case 71: break;
         case 52: 
           { return new Symbol(sym.UNTIL);
           }
-        case 71: break;
+        case 72: break;
         case 37: 
           { return new Symbol(sym.IN);
           }
-        case 72: break;
+        case 73: break;
         case 32: 
           { return new Symbol(sym.OR);
           }
-        case 73: break;
+        case 74: break;
         case 31: 
           { return new Symbol(sym.EQ);
           }
-        case 74: break;
+        case 75: break;
         case 14: 
           { return new Symbol(sym.RBRACK);
           }
-        case 75: break;
+        case 76: break;
         case 56: 
           { return new Symbol(sym.REPEAT);
           }
-        case 76: break;
+        case 77: break;
         case 46: 
           { return new Symbol(sym.FDEF);
           }
-        case 77: break;
+        case 78: break;
         case 28: 
           { return new Symbol(sym.FLOAT, (new Float(yytext())).floatValue());
           }
-        case 78: break;
+        case 79: break;
         case 13: 
           { return new Symbol(sym.RPAREN);
           }
-        case 79: break;
+        case 80: break;
         case 23: 
           { return new Symbol(sym.LESS);
           }
-        case 80: break;
+        case 81: break;
         case 3: 
           { return new Symbol(sym.MINUS);
           }
-        case 81: break;
+        case 82: break;
         case 9: 
           { return new Symbol(sym.PLUS);
           }
-        case 82: break;
+        case 83: break;
         case 50: 
           { return new Symbol(sym.BOOLTYPE);
           }
-        case 83: break;
+        case 84: break;
         case 25: 
           { yybegin(YYINITIAL);
           }
-        case 84: break;
+        case 85: break;
         case 48: 
           { return new Symbol(sym.VOID);
           }
-        case 85: break;
+        case 86: break;
         case 45: 
           { return new Symbol(sym.ELSE);
           }
-        case 86: break;
+        case 87: break;
         case 4: 
           { return new Symbol(sym.ID, yytext());
-          }
-        case 87: break;
-        case 16: 
-          { return new Symbol(sym.LCBRACK);
           }
         case 88: break;
         case 24: 
@@ -880,28 +883,28 @@ private String string;
           { return new Symbol(sym.CONCAT);
           }
         case 100: break;
-        case 1: 
-          { System.out.println("error: unknown character " + yytext() + " found at line " + yyline);
-          }
-        case 101: break;
         case 8: 
           { return new Symbol(sym.DOT);
           }
-        case 102: break;
+        case 101: break;
         case 34: 
           { return new Symbol(sym.GREATEREQ);
           }
-        case 103: break;
+        case 102: break;
         case 19: 
           { return new Symbol(sym.SEMI);
           }
-        case 104: break;
+        case 103: break;
         case 27: 
           { yybegin(YYINITIAL); return new Symbol(sym.STRING,new String(string));
           }
-        case 105: break;
+        case 104: break;
         case 43: 
           { return new Symbol(sym.BOOL,(new Boolean(yytext())).booleanValue());
+          }
+        case 105: break;
+        case 16: 
+          { section="main";return new Symbol(sym.LCBRACK);
           }
         case 106: break;
         case 15: 
