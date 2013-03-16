@@ -24,6 +24,8 @@ terminal EQ, LESS, GREATER, LESSEQ, GREATEREQ, NEQ;
 //data type declaration
 terminal TDEF;  
 
+terminal ILLEGALCHAR;
+
 non terminal name, simple_name, qualified_name, type, element;
 non terminal type_declr,element_list;   //Data type declaration
 non terminal list, emptyList, listOfListsOfStrings, listOfListsOfIntegers, listOfListsOfFloats, listOfListsOfChars,valuelist, listOfListsOfBools, listOfListsOfVars, value;
@@ -364,6 +366,7 @@ while_statement ::= WHILE LPAREN expression RPAREN DO LCBRACK body_op RCBRACK
 repeat_statement ::= REPEAT LCBRACK body_op RCBRACK UNTIL LPAREN expression RPAREN 
 	;
 //statement 
+<<<<<<< HEAD
 statement ::= assignment SEMI
 	| method_invocation SEMI 
 	| if_statement 
@@ -371,6 +374,14 @@ statement ::= assignment SEMI
 	| repeat_statement SEMI
 	| error {:System.out.println("grammar of statement is violated!"); parser.parser_successful=false;:}
 	;
+=======
+statement ::= assignment SEMI {: System.out.println("statement ::= assingment"); :}
+	| method_invocation SEMI {: System.out.println("statement ::= func_call"); :}
+	| if_statement {: System.out.println("statement ::= if_statement"); :}
+	| while_statement {: System.out.println("statement ::= while_statement"); :}
+	| repeat_statement SEMI{: System.out.println("statement ::= repeat_statement"); :}
+;
+>>>>>>> sync commit
 // statement list
 statement_list ::= statement 
 	| statement_list statement 
@@ -380,4 +391,8 @@ main ::= LCBRACK body RCBRACK
 	;
 program ::= declarations_list main
 	| main
+<<<<<<< HEAD
 	;
+=======
+	 | error {:parser.parser_successful=false;:};
+>>>>>>> sync commit
