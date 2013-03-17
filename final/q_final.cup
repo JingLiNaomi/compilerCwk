@@ -186,9 +186,18 @@ declaration ::=
 	| func_def_noretrn
 	;
 
+<<<<<<< HEAD
 
 declarations_list ::= declarations_list declaration 
 	| declaration 
+=======
+declarations_list ::= declarations_list declaration {:parser.section="declaration list";:}
+	| declaration 
+	;
+declarations_list ::= declarations_list declaration 
+	| declaration 
+
+>>>>>>> Remove github nasty characters
 	;
 
 
@@ -348,6 +357,12 @@ assignment ::=	left_hand_side ASSIGN assignment_expression
 //	| left_hand_side ASSIGN error {:System.out.println("Error is on the right hand side of Assignment ");:}
 //	| error ASSIGN assignment_expression {:System.out.println("Error is on the left hand side of Assignment ");:};
 	;
+<<<<<<< HEAD
+=======
+assignment ::=	left_hand_side ASSIGN assignment_expression ;
+//	| left_hand_side ASSIGN error {:System.out.println("Error is on the right hand side of Assignment ");:};
+	//| error ASSIGN assignment_expression {:System.out.println("Error is on the left hand side of Assignment ");:};
+>>>>>>> Remove github nasty characters
 
 left_hand_side ::= 	name 
 	;
@@ -413,7 +428,7 @@ statement_list ::= statement
 	| statement_list statement 
 	;
 
-main ::= LCBRACK body RCBRACK {}
+main ::= LCBRACK body RCBRACK
 	;
 program ::= declarations_list main
 	| main
