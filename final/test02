@@ -2,6 +2,7 @@ l1: list = ["a","b", "c", "d", "e"];
 l2: list = [1,2,3,4,5];
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 
@@ -9,6 +10,9 @@ l2: list = [1,2,3,4,5];
 =======
 'asd'
 >>>>>>> Update  Main
+=======
+
+>>>>>>> Merge commit
 s1:string = "";
 s2:string = "hello";
 

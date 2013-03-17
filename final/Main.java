@@ -13,7 +13,6 @@ public class Main {
       Object result = p.parse(); 
       if(parser.parser_successful)
       {
-
         System.out.println("Parsing is successful");
       }
       else

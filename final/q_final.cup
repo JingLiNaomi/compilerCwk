@@ -287,7 +287,7 @@ multiplicative_expression ::= unary_expression
 	|	multiplicative_expression DIVIDE unary_expression
 	;
 additive_expression ::= multiplicative_expression 
-	|	additive_expression PLUS multiplicative_expression {: System.out.println("additive_expression ::= additive_expression PLUS multiplicative_expression"); :}
+	|	additive_expression PLUS multiplicative_expression 
 	|	additive_expression MINUS multiplicative_expression
 	;
 shift_expression ::= additive_expression 
