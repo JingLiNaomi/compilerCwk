@@ -4,6 +4,7 @@ l2: list = [1,2,3,4,5];
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 
@@ -16,24 +17,37 @@ l2: list = [1,2,3,4,5];
 >>>>>>> Merge commit
 =======
 >>>>>>> Add error reporting for var_declr and type_declr
+=======
+
+>>>>>>> added error report statements
 s1:string = "";
 s2:string = "hello";
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> added error report statements
 {
 
   newlist : list = l1 :: l2;
 
-  anotherlist : list = [s1] + [s2] + newlist;
+  //anotherlist : list = [s1] + [s2] + newlist;
   thirdlist : list = l2[:-2] :: l2[3:];
 
   b:bool = len(thirdlist) == len(l2);
 
 
   if (len(newlist) <= len(anotherlist)) {
-     newlist = newlist + anotherlist[0];
+   //  newlist = newlist + anotherlist[0];
+   s=b;
   } else {
-     newlist = newlist - newlist[0];
+   //  newlist = newlist - newlist[0];
+  g=h;
   }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> added error report statements

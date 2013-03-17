@@ -5,7 +5,12 @@ import java.io.*;
 
 parser code {:
 static boolean parser_successful=true;
-static int section=0;
+
+static String section="Declaration";
+//static java_cup.runtime.Scanner s = this.getScanner();
+
+static String[] errs = {"list defenition","tuple defenition","user defined data declaration"};
+static int st=0;
 :};
 // operations
 terminal PLUS, TIMES, MINUS,DIVIDE, CONCAT, ASSIGN;
@@ -47,7 +52,7 @@ non terminal var_declr, statement, statement_list, variable_declarator, variable
 non terminal unary_expression, unary_expression_not_plus_minus,postfix_expression,shift_expression, relational_expression,equality_expression;
 non terminal conditional_expression, conditional_or_expression, assignment_expression, left_hand_side, and_expression;
 
-non terminal declaration, declarations_list, program, main,local_var_declaration_list;
+non terminal declaration, declarations_list, program, main,local_var_declaration_list, declaration_section;
 
 
 precedence left PLUS;
@@ -70,8 +75,6 @@ value ::= BOOL
 	| FLOAT 
 	| CHAR 
 	| STRING 
-	| list 
-	| tuple 
 	;
 valuelist ::= value 
 	| valuelist COMMA value 
@@ -150,7 +153,6 @@ listOfVars ::= name
 	;
 
 
-
 //char list, i.e ['1','4','5'] or [['s'],['e'],['d']] etc
 charList ::= LBRACK listOfChars RBRACK 
 	| LBRACK listOfListsOfChars RBRACK 
@@ -180,8 +182,8 @@ declaration ::=
 	| func_def_noretrn
 	;
 
-declarations_list ::= declarations_list declaration 
-	| declaration 
+declarations_list ::= declarations_list declaration {:parser.section="main";:}
+	| declaration {:parser.section="main";:}
 	;
 
 
@@ -210,9 +212,16 @@ variable_declarator ::= element
 	
 	
 variable_initializer ::= expression 
+	| list 
+	| tuple 
 	| variable_initializer COMMA expression
+<<<<<<< HEAD
 	| error COMMA expression {: System.out.println("Error: wrong variable_initializer");:}
 	| variable_initializer COMMA error {: System.out.println("Error: wrong expression");:}
+=======
+	| variable_initializer COMMA list
+	| variable_initializer COMMA tuple
+>>>>>>> added error report statements
 	;	
 
 type ::= FLOATTYPE 
@@ -231,6 +240,8 @@ primary_no_new_array ::= value
 	|	LPAREN expression RPAREN
 	|   sequence_len
 	|	method_invocation
+	| LPAREN error RPAREN {:System.out.println("Error is in primary expression"); parser.parser_successful=false;:}
+	| ILLEGALCHAR {:System.out.println("Error is in Multiplicative expression"); parser.parser_successful=false;:}
 	;
 
 
@@ -240,6 +251,7 @@ argument_list_opt ::=
 argument_list ::=
 		expression
 	|	argument_list COMMA expression
+	| argument_list COMMA error {:System.out.println("Error is in argument list"); parser.parser_successful=false;:}
 	;
 
 // functions defenition that returns
@@ -259,42 +271,47 @@ body_op ::=
 	| body
 	;
 
-local_var_declaration_list ::= local_var_declaration_list var_declr
-	| var_declr
+local_var_declaration_list ::= local_var_declaration_list var_declr {:parser.section="main";:}
+	| var_declr {:parser.section="main";:}
 	;
 
 //parameters list when defining a function
 param_list ::= 
 	| element_list  
+	| element_list error {:System.out.println("Error is in parameters list"); parser.parser_successful=false;:}
+	| error element_list {:System.out.println("Error is in parameters list"); parser.parser_successful=false;:}
 	;	
 
 
 return_statement ::= RETURN expression SEMI 
+	| RETURN error SEMI {:System.out.println("Error is in return statement"); parser.parser_successful=false;:}
 	;
 
 
 method_invocation ::= name LPAREN argument_list_opt RPAREN
 	;
 list_index ::= name LBRACK additive_expression RBRACK
+	| name LBRACK error RBRACK {:System.out.println("Error is in list indexing"); parser.parser_successful=false;:}
 	;
 postfix_expression ::= primary 
 	|	name 
 	;
 
-unary_expression ::= unary_expression_not_plus_minus 
-	;
-
-unary_expression_not_plus_minus ::= postfix_expression 
+unary_expression ::= postfix_expression 
 	|	NOT unary_expression 
 	;
 
 multiplicative_expression ::= unary_expression 
 	|	multiplicative_expression TIMES unary_expression
 	|	multiplicative_expression DIVIDE unary_expression
+	| error TIMES error {:System.out.println("Error is in Multiplicative expression"); parser.parser_successful=false;:}
+	| error DIVIDE error {:System.out.println("Error is in Multiplicative expression"); parser.parser_successful=false;:}
 	;
 additive_expression ::= multiplicative_expression 
 	|	additive_expression PLUS multiplicative_expression 
 	|	additive_expression MINUS multiplicative_expression
+	| additive_expression PLUS error {:System.out.println("Error is in Additive expression"); parser.parser_successful=false;:}
+	| error MINUS error {:System.out.println("Error is in Additive expression"); parser.parser_successful=false;:} 
 	;
 shift_expression ::= additive_expression 
 	;
@@ -322,8 +339,10 @@ assignment_expression ::= conditional_expression
 	| in_expression
 	| sequence_slicing
 	;
-assignment ::=	left_hand_side ASSIGN assignment_expression 
-	;
+assignment ::=	left_hand_side ASSIGN assignment_expression ;
+//	| left_hand_side ASSIGN error {:System.out.println("Error is on the right hand side of Assignment ");:}
+//	| error ASSIGN assignment_expression {:System.out.println("Error is on the left hand side of Assignment ");:};
+
 left_hand_side ::= 	name 
 	;
 
@@ -337,19 +356,23 @@ concat_expr ::= name CONCAT name
 	| sequence_slicing CONCAT name
 	| sequence_slicing CONCAT sequence_slicing
 	| sequence_slicing CONCAT concat_expr
+	| error CONCAT error {:System.out.println("Error is in Concatentation expression");:}
 	;
 //sequence length, i.e len(sq)
 sequence_len ::= LEN LPAREN name RPAREN 
+	| LEN LPAREN error RPAREN {:System.out.println("Error is in sequence length");:}
 	;
 //sequence slicing, i.e sq[1:2] or sq[j:i]
 sequence_slicing ::= name LBRACK additive_expression COLON additive_expression RBRACK 
 	| name LBRACK COLON additive_expression RBRACK 
 	| name LBRACK additive_expression COLON RBRACK 
+	| name LBRACK error COLON error RBRACK {:System.out.println("Error is in sequence slicing");:}
 	;
 //in operator
 in_expression ::= value IN list
 	| value IN name
 	| name IN name
+	| error IN error {:System.out.println("Error is in IN expression");:}
 	;
 
 expression ::=	assignment_expression 
@@ -357,6 +380,7 @@ expression ::=	assignment_expression
 
 //if statement
 if_statement ::= IF LPAREN expression RPAREN  LCBRACK body_op RCBRACK else_opt 
+	| IF LPAREN error RPAREN LCBRACK body_op RCBRACK else_opt {:System.out.println("Error is in if statement");:}
 	;
 //else statement
 else_statement ::= ELSE LCBRACK body_op RCBRACK 
@@ -372,12 +396,21 @@ while_statement ::= WHILE LPAREN expression RPAREN DO LCBRACK body_op RCBRACK
 repeat_statement ::= REPEAT LCBRACK body_op RCBRACK UNTIL LPAREN expression RPAREN 
 	;
 //statement 
+<<<<<<< HEAD
 statement ::= assignment SEMI
 	| method_invocation SEMI 
 	| if_statement 
 	| while_statement
 	| repeat_statement SEMI
 	;
+=======
+statement ::= assignment SEMI {:parser.section="main";:}
+	| method_invocation SEMI {:parser.section="main";:}
+	| if_statement {:parser.section="main";:}
+	| while_statement {:parser.section="main";:}
+	| repeat_statement SEMI {:parser.section="main";:}
+;
+>>>>>>> added error report statements
 // statement list
 statement_list ::= statement 
 	| statement_list statement 
@@ -388,4 +421,8 @@ main ::= LCBRACK body RCBRACK
 program ::= declarations_list main
 	| main
 	| error {:parser.parser_successful=false;:}
+<<<<<<< HEAD
 	;
+=======
+;
+>>>>>>> added error report statements
