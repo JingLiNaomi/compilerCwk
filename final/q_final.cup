@@ -76,6 +76,8 @@ value ::= BOOL
 	| FLOAT 
 	| CHAR 
 	| STRING 
+	| list
+	| tuple
 	;
 valuelist ::= value 
 	| valuelist COMMA value 
@@ -103,6 +105,7 @@ listOfListsOfStrings ::= stringList
 //list of strings, i.e "item1","item2"
 listOfStrings ::= STRING 
 	| STRING COMMA listOfStrings 
+	| error COMMA listOfStrings {:System.out.println("Error is in stringlist");:}
 	;
 //integer list, i.e [1,2,3] or [[1],[2],[3]] etc
 integerList ::= LBRACK listOfIntegers RBRACK 
@@ -183,14 +186,9 @@ declaration ::=
 	| func_def_noretrn
 	;
 
-<<<<<<< HEAD
-declarations_list ::= declarations_list declaration {:parser.section="declaration list";:}
-	| declaration 
-=======
+
 declarations_list ::= declarations_list declaration 
 	| declaration 
-
->>>>>>> Merge commit
 	;
 
 
@@ -218,12 +216,8 @@ variable_declarator ::= element
 	
 	
 variable_initializer ::= expression 
-	| list 
-	| tuple 
 	| variable_initializer COMMA expression
 	| error COMMA expression {:System.out.println("Error is in variable_initializer"); parser.parser_successful=false;:} 
-	| variable_initializer COMMA list
-	| variable_initializer COMMA tuple
 	;	
 
 type ::= FLOATTYPE 
@@ -349,18 +343,12 @@ assignment_expression ::= conditional_expression
 	| sequence_slicing
 //	| ILLEGALCHAR {:System.out.println("Error is in Multiplicative expression"); parser.parser_successful=false;:}
 	;
-<<<<<<< HEAD
 assignment ::=	left_hand_side ASSIGN assignment_expression 
 	| error ASSIGN assignment_expression {:System.out.println("Error is in left_hand_side"); parser.parser_successful=false;:} 
 //	| left_hand_side ASSIGN error {:System.out.println("Error is on the right hand side of Assignment ");:}
 //	| error ASSIGN assignment_expression {:System.out.println("Error is on the left hand side of Assignment ");:};
 	;
-=======
-assignment ::=	left_hand_side ASSIGN assignment_expression ;
-//	| left_hand_side ASSIGN error {:System.out.println("Error is on the right hand side of Assignment ");:};
-	//| error ASSIGN assignment_expression {:System.out.println("Error is on the left hand side of Assignment ");:};
 
->>>>>>> Merge commit
 left_hand_side ::= 	name 
 	;
 
