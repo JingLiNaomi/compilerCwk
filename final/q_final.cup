@@ -61,9 +61,8 @@ precedence left TIMES;
 
 start with program;
 
-name ::=	simple_name 
+name ::= simple_name 
 	|	qualified_name 
-	| ILLEGALCHAR {:System.out.println("Error is in Multiplicative expression"); parser.parser_successful=false;:}
 	;
 simple_name ::=	ID 
 	;
@@ -184,8 +183,14 @@ declaration ::=
 	| func_def_noretrn
 	;
 
+<<<<<<< HEAD
 declarations_list ::= declarations_list declaration {:parser.section="declaration list";:}
 	| declaration 
+=======
+declarations_list ::= declarations_list declaration 
+	| declaration 
+
+>>>>>>> Merge commit
 	;
 
 
@@ -342,12 +347,20 @@ assignment_expression ::= conditional_expression
 	| concat_expr
 	| in_expression
 	| sequence_slicing
+//	| ILLEGALCHAR {:System.out.println("Error is in Multiplicative expression"); parser.parser_successful=false;:}
 	;
+<<<<<<< HEAD
 assignment ::=	left_hand_side ASSIGN assignment_expression 
 	| error ASSIGN assignment_expression {:System.out.println("Error is in left_hand_side"); parser.parser_successful=false;:} 
 //	| left_hand_side ASSIGN error {:System.out.println("Error is on the right hand side of Assignment ");:}
 //	| error ASSIGN assignment_expression {:System.out.println("Error is on the left hand side of Assignment ");:};
 	;
+=======
+assignment ::=	left_hand_side ASSIGN assignment_expression ;
+//	| left_hand_side ASSIGN error {:System.out.println("Error is on the right hand side of Assignment ");:};
+	//| error ASSIGN assignment_expression {:System.out.println("Error is on the left hand side of Assignment ");:};
+
+>>>>>>> Merge commit
 left_hand_side ::= 	name 
 	;
 
@@ -412,7 +425,7 @@ statement_list ::= statement
 	| statement_list statement 
 	;
 
-main ::= LCBRACK body RCBRACK 
+main ::= LCBRACK body RCBRACK {}
 	;
 program ::= declarations_list main
 	| main
