@@ -50,10 +50,10 @@ non terminal assignment, if_statement, else_statement, else_opt, while_statement
 nonterminal func_def_retrn, func_def_noretrn, param_list, body, body_op, method_invocation;
 non terminal var_declr, statement, statement_list, variable_declarator, variable_initializer,argument_list,argument_list_opt;
 
-non terminal unary_expression, unary_expression_not_plus_minus,postfix_expression,shift_expression, relational_expression,equality_expression;
+non terminal unary_expression,postfix_expression,shift_expression, relational_expression,equality_expression;
 non terminal conditional_expression, conditional_or_expression, assignment_expression, left_hand_side, and_expression;
 
-non terminal declaration, declarations_list, program, main,local_var_declaration_list, declaration_section;
+non terminal declaration, declarations_list, program, main,local_var_declaration_list;
 
 
 precedence left PLUS;
@@ -184,19 +184,19 @@ declaration ::=
 	| func_def_noretrn
 	;
 
-declarations_list ::= declarations_list declaration {:parser.section="main";:}
-	| declaration {:parser.section="main";:}
+declarations_list ::= declarations_list declaration {:parser.section="declaration list";:}
+	| declaration 
 	;
 
 
 type_declr ::= TDEF ID COLON element_list SEMI
-	| TDEF ID COLON error SEMI {:System.out.println("Error: wrong element_list");:}
-	| TDEF error SEMI {:System.out.println("Error: wrong type_declr");:}
+	| TDEF ID COLON error SEMI {:System.out.println("Error is in element_list"); parser.parser_successful=false;:} 
+	| TDEF error SEMI {:System.out.println("Error is in type_declr"); parser.parser_successful=false;:} 
 	;	
 	
 element_list ::= element 
 	| element_list COMMA element 
-	| error COMMA element  {:System.out.println("Error: wrong element_list");:}
+	| error COMMA element  {:System.out.println("Error is in element_list"); parser.parser_successful=false;:} 
 	;
 	
 element ::= ID COLON type 
@@ -208,8 +208,7 @@ var_declr ::=  variable_declarator SEMI
 	
 variable_declarator ::= element 
 	|	element ASSIGN variable_initializer 
-	| 	element ASSIGN error {: System.out.println("Error: wrong variable_initializer");:}
-	|	error ASSIGN variable_initializer 	{: System.out.println("Error: wrong element");:}
+	| 	element ASSIGN error {:System.out.println("Error is in variable_initializer"); parser.parser_successful=false;:} 
 	;
 	
 	
@@ -217,8 +216,7 @@ variable_initializer ::= expression
 	| list 
 	| tuple 
 	| variable_initializer COMMA expression
-	| error COMMA expression {: System.out.println("Error: wrong variable_initializer");:}
-	| variable_initializer COMMA error {: System.out.println("Error: wrong expression");:}
+	| error COMMA expression {:System.out.println("Error is in variable_initializer"); parser.parser_successful=false;:} 
 	| variable_initializer COMMA list
 	| variable_initializer COMMA tuple
 	;	
@@ -315,20 +313,28 @@ shift_expression ::= additive_expression
 	;
 relational_expression ::= shift_expression 
 	|	relational_expression LESS shift_expression
-	|	relational_expression GREATER shift_expression
+	|	error LESS shift_expression	{:System.out.println("Error is in relational_expression"); parser.parser_successful=false;:} 
+	|	relational_expression GREATER shift_expression 
+	|	error GREATER shift_expression {:System.out.println("Error is in relational_expression"); parser.parser_successful=false;:} 
 	|	relational_expression LESSEQ shift_expression
+	|	error LESSEQ shift_expression  {:System.out.println("Error is in relational_expression"); parser.parser_successful=false;:} 
 	|	relational_expression GREATEREQ shift_expression
+	|	error GREATEREQ shift_expression  {:System.out.println("Error is in relational_expression"); parser.parser_successful=false;:} 
 	;
 equality_expression ::= relational_expression 
 	|	equality_expression EQ relational_expression
+	|	error EQ relational_expression {:System.out.println("Error is in equality_expression"); parser.parser_successful=false;:} 
 	|	equality_expression NEQ relational_expression
+	|	error NEQ relational_expression  {:System.out.println("Error is in equality_expression"); parser.parser_successful=false;:} 
 	;
 and_expression ::= equality_expression 
 	|	and_expression AND equality_expression
+	|	error AND equality_expression {:System.out.println("Error is in and_expression"); parser.parser_successful=false;:} 
 	;
 
 conditional_or_expression ::= and_expression
 	|	conditional_or_expression OR and_expression
+	|	error OR and_expression {:System.out.println("Error is in conditional_or_expression"); parser.parser_successful=false;:} 
 	;
 conditional_expression ::= conditional_or_expression
 	;
@@ -337,10 +343,11 @@ assignment_expression ::= conditional_expression
 	| in_expression
 	| sequence_slicing
 	;
-assignment ::=	left_hand_side ASSIGN assignment_expression ;
+assignment ::=	left_hand_side ASSIGN assignment_expression 
+	| error ASSIGN assignment_expression {:System.out.println("Error is in left_hand_side"); parser.parser_successful=false;:} 
 //	| left_hand_side ASSIGN error {:System.out.println("Error is on the right hand side of Assignment ");:}
 //	| error ASSIGN assignment_expression {:System.out.println("Error is on the left hand side of Assignment ");:};
-
+	;
 left_hand_side ::= 	name 
 	;
 

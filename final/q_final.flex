@@ -12,7 +12,6 @@ import java_cup.runtime.*;
 %state MAIN
 %{
 private String string;
-private String section="declaration list";
 %}
 digit = [0-9]
 integer = -?{digit}+
@@ -37,7 +36,7 @@ boolconst = "true"|"false"
 <YYINITIAL>")" {return new Symbol(sym.RPAREN);}
 <YYINITIAL>"]" {return new Symbol(sym.RBRACK);}
 <YYINITIAL>"[" {return new Symbol(sym.LBRACK);}
-<YYINITIAL>"{" {section="main";return new Symbol(sym.LCBRACK);}
+<YYINITIAL>"{" {return new Symbol(sym.LCBRACK);}
 <YYINITIAL>"}" {return new Symbol(sym.RCBRACK);}
 <YYINITIAL>"." {return new Symbol(sym.DOT);}
 <YYINITIAL>"," {return new Symbol(sym.COMMA);}
