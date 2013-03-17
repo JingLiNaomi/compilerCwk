@@ -1,10 +1,14 @@
 l1: list = ["a","b", "c", "d", "e"];
 l2: list = [1,2,3,4,5];
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 
 >>>>>>> sync commit
+=======
+'asd'
+>>>>>>> Update  Main
 s1:string = "";
 s2:string = "hello";
 

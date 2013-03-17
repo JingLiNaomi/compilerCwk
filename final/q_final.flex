@@ -10,7 +10,6 @@ import java_cup.runtime.*;
 %state LINECOMMENT
 %state STRING
 %state MAIN
-
 %{
 private String string;
 private String section="declaration list";

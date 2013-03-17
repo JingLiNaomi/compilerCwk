@@ -21,6 +21,7 @@ public class Main {
         System.out.println("Parsing is unsuccessful");
       }
     } catch (Exception e) { 
+	System.out.println("Error is catched");
         } 
 
   } 
