@@ -3,6 +3,7 @@ l2: list = [1,2,3,4,5];
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 
@@ -13,8 +14,11 @@ l2: list = [1,2,3,4,5];
 =======
 
 >>>>>>> Merge commit
+=======
+>>>>>>> Add error reporting for var_declr and type_declr
 s1:string = "";
 s2:string = "hello";
+
 
 {
 
@@ -31,6 +35,5 @@ s2:string = "hello";
   } else {
      newlist = newlist - newlist[0];
   }
-  'dfg'
-  
+
 }

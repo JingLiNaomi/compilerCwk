@@ -24,7 +24,6 @@ terminal EQ, LESS, GREATER, LESSEQ, GREATEREQ, NEQ;
 //data type declaration
 terminal TDEF;  
 
-terminal ILLEGALCHAR;
 
 non terminal name, simple_name, qualified_name, type, element;
 non terminal type_declr,element_list;   //Data type declaration
@@ -187,10 +186,13 @@ declarations_list ::= declarations_list declaration
 
 
 type_declr ::= TDEF ID COLON element_list SEMI
+	| TDEF ID COLON error SEMI {:System.out.println("Error: wrong element_list");:}
+	| TDEF error SEMI {:System.out.println("Error: wrong type_declr");:}
 	;	
 	
 element_list ::= element 
 	| element_list COMMA element 
+	| error COMMA element  {:System.out.println("Error: wrong element_list");:}
 	;
 	
 element ::= ID COLON type 
@@ -202,11 +204,15 @@ var_declr ::=  variable_declarator SEMI
 	
 variable_declarator ::= element 
 	|	element ASSIGN variable_initializer 
+	| 	element ASSIGN error {: System.out.println("Error: wrong variable_initializer");:}
+	|	error ASSIGN variable_initializer 	{: System.out.println("Error: wrong element");:}
 	;
 	
 	
 variable_initializer ::= expression 
 	| variable_initializer COMMA expression
+	| error COMMA expression {: System.out.println("Error: wrong variable_initializer");:}
+	| variable_initializer COMMA error {: System.out.println("Error: wrong expression");:}
 	;	
 
 type ::= FLOATTYPE 
@@ -371,7 +377,7 @@ statement ::= assignment SEMI
 	| if_statement 
 	| while_statement
 	| repeat_statement SEMI
-;
+	;
 // statement list
 statement_list ::= statement 
 	| statement_list statement 
@@ -381,4 +387,5 @@ main ::= LCBRACK body RCBRACK
 	;
 program ::= declarations_list main
 	| main
-	| error {:parser.parser_successful=false;:};
+	| error {:parser.parser_successful=false;:}
+	;

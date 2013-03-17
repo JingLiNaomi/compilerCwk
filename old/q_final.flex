@@ -9,10 +9,10 @@ import java_cup.runtime.*;
 %state COMMENT
 %state LINECOMMENT
 %state STRING
-
-
+%state MAIN
 %{
 private String string;
+private String section="declaration list";
 %}
 digit = [0-9]
 integer = -?{digit}+
@@ -37,7 +37,7 @@ boolconst = "true"|"false"
 <YYINITIAL>")" {return new Symbol(sym.RPAREN);}
 <YYINITIAL>"]" {return new Symbol(sym.RBRACK);}
 <YYINITIAL>"[" {return new Symbol(sym.LBRACK);}
-<YYINITIAL>"{" {return new Symbol(sym.LCBRACK);}
+<YYINITIAL>"{" {section="main";return new Symbol(sym.LCBRACK);}
 <YYINITIAL>"}" {return new Symbol(sym.RCBRACK);}
 <YYINITIAL>"." {return new Symbol(sym.DOT);}
 <YYINITIAL>"," {return new Symbol(sym.COMMA);}
@@ -93,7 +93,10 @@ boolconst = "true"|"false"
 <YYINITIAL> "//" {yybegin(LINECOMMENT);}
 <LINECOMMENT> {linecom} {yybegin(YYINITIAL); }
 <LINECOMMENT>. {}
-<YYINITIAL>. {System.out.println("error: unknown character " + yytext() + " found at line " + yyline);}
+<YYINITIAL>. {System.out.println("error: unknown character " + yytext() + " found at line " + yyline);  
+        System.out.println("Error is in "+section);
+        return new Symbol(sym.ILLEGALCHAR);
+      }
 <STRING> 
 { 
 \"                        { yybegin(YYINITIAL); return new Symbol(sym.STRING,new String(string)); } 

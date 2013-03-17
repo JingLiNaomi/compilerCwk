@@ -1,1 +1,13 @@
-{}}
+
+tdef  : name:string, surname:string, age:int; // person definition
+
+tdef family : mother:person, father:person, children:list; // family definition
+{
+
+  p:person = "aaabAAA", "bbBB0_i", 35;
+  c1:person = "aaabAAA", "bbBB0_i", 1;
+  c2:person = "aaadAAA", "bbBB0_i", 2;
+  c3:person = "aaaeAAA", "bbBB0_i", 3;
+
+ 
+}
