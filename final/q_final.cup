@@ -27,7 +27,8 @@ terminal OR, AND, NOT;
 //comparison
 terminal EQ, LESS, GREATER, LESSEQ, GREATEREQ, NEQ;
 //data type declaration
-terminal TDEF;  
+terminal TDEF;
+terminal ILLEGALCHAR;  
 
 
 non terminal name, simple_name, qualified_name, type, element;
@@ -62,6 +63,7 @@ start with program;
 
 name ::=	simple_name 
 	|	qualified_name 
+	| ILLEGALCHAR {:System.out.println("Error is in Multiplicative expression"); parser.parser_successful=false;:}
 	;
 simple_name ::=	ID 
 	;
@@ -215,13 +217,10 @@ variable_initializer ::= expression
 	| list 
 	| tuple 
 	| variable_initializer COMMA expression
-<<<<<<< HEAD
 	| error COMMA expression {: System.out.println("Error: wrong variable_initializer");:}
 	| variable_initializer COMMA error {: System.out.println("Error: wrong expression");:}
-=======
 	| variable_initializer COMMA list
 	| variable_initializer COMMA tuple
->>>>>>> added error report statements
 	;	
 
 type ::= FLOATTYPE 
@@ -241,7 +240,6 @@ primary_no_new_array ::= value
 	|   sequence_len
 	|	method_invocation
 	| LPAREN error RPAREN {:System.out.println("Error is in primary expression"); parser.parser_successful=false;:}
-	| ILLEGALCHAR {:System.out.println("Error is in Multiplicative expression"); parser.parser_successful=false;:}
 	;
 
 
@@ -396,21 +394,12 @@ while_statement ::= WHILE LPAREN expression RPAREN DO LCBRACK body_op RCBRACK
 repeat_statement ::= REPEAT LCBRACK body_op RCBRACK UNTIL LPAREN expression RPAREN 
 	;
 //statement 
-<<<<<<< HEAD
 statement ::= assignment SEMI
 	| method_invocation SEMI 
 	| if_statement 
 	| while_statement
 	| repeat_statement SEMI
 	;
-=======
-statement ::= assignment SEMI {:parser.section="main";:}
-	| method_invocation SEMI {:parser.section="main";:}
-	| if_statement {:parser.section="main";:}
-	| while_statement {:parser.section="main";:}
-	| repeat_statement SEMI {:parser.section="main";:}
-;
->>>>>>> added error report statements
 // statement list
 statement_list ::= statement 
 	| statement_list statement 
@@ -421,8 +410,4 @@ main ::= LCBRACK body RCBRACK
 program ::= declarations_list main
 	| main
 	| error {:parser.parser_successful=false;:}
-<<<<<<< HEAD
-	;
-=======
 ;
->>>>>>> added error report statements

@@ -94,12 +94,8 @@ boolconst = "true"|"false"
 <LINECOMMENT> {linecom} {yybegin(YYINITIAL); }
 <LINECOMMENT>. {}
 <YYINITIAL>. {System.out.println("error: unknown character " + yytext() + " found at line " + yyline);  
-<<<<<<< HEAD
-        System.out.println("Error is in "+section);
-=======
         System.out.println("Error is in "+parser.section);
         return new Symbol(sym.ILLEGALCHAR);
->>>>>>> added error report statements
       }
 <STRING> 
 { 
