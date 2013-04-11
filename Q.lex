@@ -31,6 +31,7 @@ BooleanLiteral = "true" | "false"
 IntegerLiteral = ("-")?[:digit:]+
 FloatLiteral = ("-")?[:digit:]+\.[:digit:]+
 StringLiteral = "\"" ~"\"" 
+CharLiteral = "'"."'"
 
 %states ERROR
 
@@ -99,6 +100,7 @@ StringLiteral = "\"" ~"\""
 ","					{return h.sym(sym.COMMA); }
 
 // Literals
+{CharLiteral}	    {return h.parseChar(yytext());}
 {BooleanLiteral}	{return h.parseBool(yytext());}
 {FloatLiteral}		{return h.parseFloat(yytext());}
 {IntegerLiteral}	{return h.parseInteger(yytext());}

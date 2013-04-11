@@ -19,7 +19,17 @@ class QHelper {
 	 * @return Symbol object
 	 */
 	public Symbol parseBool(String yytext) {
-		return sym(sym.BOOLLITERAL, yytext.equals("TT"));
+		return sym(sym.BOOLLITERAL, yytext.equals("true"));
+	}
+
+	/**
+	 * Returns symbol object containing a char.
+	 * 
+	 * @param yytext
+	 * @return Symbol object
+	 */
+	public Symbol parseChar(String yytext) {
+		return sym(sym.CHARLITERAL, yytext.charAt(1));
 	}
 
 	/**
