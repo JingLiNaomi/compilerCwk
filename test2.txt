@@ -1,5 +1,0 @@
- if (len(newlist) <= len(anotherlist)) {
-     newlist = newlist + anotherlist[0];
-  } else {
-     newlist = newlist - newlist[0];
-  }
